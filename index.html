@@ -95,35 +95,66 @@
                 </div>
 
                 <!-- Desktop Navigation Menu -->
-                <nav class="hidden md:flex space-x-1 lg:space-x-2 bg-emerald-900/40 p-1.5 rounded-2xl border border-emerald-700/50 backdrop-blur-sm">
+                <nav id="mainNavDesktop" class="hidden md:flex space-x-1 lg:space-x-2 bg-emerald-900/40 p-1.5 rounded-2xl border border-emerald-700/50 backdrop-blur-sm">
                     <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-amber-400 text-emerald-950 shadow-md">
-                        <i class="fa-solid fa-house mr-1.5"></i> Beranda
+                        <i class="fa-solid fa-house mr-1.5"></i> <span class="nav-label">Beranda</span>
                     </button>
                     <button onclick="switchTab('faraidh')" id="nav-faraidh" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-emerald-100 hover:text-white hover:bg-emerald-800/60 transition-all duration-200">
-                        <i class="fa-solid fa-users-rays mr-1.5"></i> Kalkulator Warisan
+                        <i class="fa-solid fa-users-rays mr-1.5"></i> <span class="nav-label">Kalkulator Warisan</span>
                     </button>
                     <button onclick="switchTab('zakat')" id="nav-zakat" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-emerald-100 hover:text-white hover:bg-emerald-800/60 transition-all duration-200">
-                        <i class="fa-solid fa-hand-holding-dollar mr-1.5"></i> Kalkulator Zakat
+                        <i class="fa-solid fa-hand-holding-dollar mr-1.5"></i> <span class="nav-label">Kalkulator Zakat</span>
                     </button>
                     <button onclick="switchTab('consultation')" id="nav-consultation" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-emerald-100 hover:text-white hover:bg-emerald-800/60 transition-all duration-200">
-                        <i class="fa-solid fa-robot mr-1.5"></i> Tanya Syariah
+                        <i class="fa-solid fa-robot mr-1.5"></i> <span class="nav-label">Tanya Syariah</span>
                     </button>
                     <button onclick="switchTab('encyclopedia')" id="nav-encyclopedia" class="nav-btn px-4 py-2 rounded-xl text-sm font-semibold text-emerald-100 hover:text-white hover:bg-emerald-800/60 transition-all duration-200">
-                        <i class="fa-solid fa-book-quran mr-1.5"></i> Ensiklopedia
+                        <i class="fa-solid fa-book-quran mr-1.5"></i> <span class="nav-label">Ensiklopedia</span>
+                    </button>
+                    <!-- Tombol Dashboard Admin (Otomatis Muncul saat Login) -->
+                    <button onclick="switchTab('admin')" id="nav-admin" class="nav-btn hidden px-4 py-2 rounded-xl text-sm font-semibold text-amber-300 hover:text-amber-200 hover:bg-emerald-800/60 transition-all duration-200 border border-amber-400/40">
+                        <i class="fa-solid fa-gauge-high mr-1.5"></i> <span class="nav-label">Dashboard Admin</span>
                     </button>
                 </nav>
 
-                <!-- Quick Parameter Toggle (Emas & Beras) -->
-                <div class="hidden lg:flex items-center space-x-3 text-xs bg-emerald-950/40 px-3 py-1.5 rounded-xl border border-white/10">
-                    <div class="flex items-center space-x-1.5 text-amber-300">
+                <!-- Quick Parameter Toggle & Admin Auth Button (Pojok Kanan Atas) -->
+                <div class="hidden lg:flex items-center space-x-3 text-xs">
+                    <div class="flex items-center space-x-1.5 text-amber-300 bg-emerald-950/40 px-3 py-1.5 rounded-xl border border-white/10">
                         <i class="fa-solid fa-coins"></i>
                         <span>Emas/g:</span>
                         <input type="number" id="globalGoldPrice" value="1450000" onchange="syncPrices()" class="w-24 bg-emerald-900/80 text-white font-bold px-2 py-0.5 rounded border border-emerald-600 focus:outline-none focus:ring-1 focus:ring-amber-400">
                     </div>
+
+                    <!-- Area Login / Status Administrator -->
+                    <div id="authHeaderArea">
+                        <!-- Tampilan saat Belum Login -->
+                        <button onclick="openLoginModal()" id="btnLoginTrigger" class="px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold text-xs shadow-md transition-all flex items-center space-x-1.5 transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            <span>Login</span>
+                        </button>
+
+                        <!-- Tampilan saat Sudah Login sebagai Grand Admin -->
+                        <div id="adminUserBadge" class="hidden flex items-center space-x-2 bg-emerald-950/60 p-1 pl-2 pr-1.5 rounded-2xl border border-amber-400/40">
+                            <img id="headerAdminAvatar" src="https://placehold.co/80x80/065f46/fbbf24?text=G" alt="Avatar" class="w-8 h-8 rounded-full border border-amber-400 object-cover">
+                            <div class="text-left cursor-pointer" onclick="switchTab('admin')">
+                                <span id="headerAdminName" class="text-xs font-bold text-amber-300 block leading-tight">Ghufron</span>
+                                <span class="text-[9px] text-emerald-200 block">Grand Admin</span>
+                            </div>
+                            <button onclick="switchTab('admin')" title="Kelola Aplikasi" class="p-1.5 hover:bg-emerald-800 text-amber-300 rounded-lg transition ml-1">
+                                <i class="fa-solid fa-gear"></i>
+                            </button>
+                            <button onclick="handleLogout()" title="Keluar / Logout" class="p-1.5 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg transition">
+                                <i class="fa-solid fa-power-off"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Mobile Hamburger Button -->
-                <div class="md:hidden flex items-center">
+                <div class="md:hidden flex items-center space-x-2">
+                    <button onclick="openLoginModal()" id="btnMobileLoginQuick" class="p-2 rounded-xl bg-amber-400 text-emerald-950 text-xs font-bold">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </button>
                     <button onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-emerald-800/80 text-white hover:bg-emerald-700 focus:outline-none">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
@@ -131,23 +162,38 @@
             </div>
         </div>
 
+        <!-- Running Announcement Banner (Kelolaan Admin) -->
+        <div id="adminAnnouncementBanner" class="bg-amber-400 text-emerald-950 px-4 py-1.5 text-xs font-semibold flex items-center justify-between border-t border-amber-500/30">
+            <div class="flex items-center space-x-2 overflow-hidden whitespace-nowrap w-full">
+                <span class="px-2 py-0.5 rounded-md bg-emerald-900 text-amber-300 text-[10px] font-extrabold uppercase shrink-0">Warta Pembina</span>
+                <span id="announcementBannerText" class="truncate">Selamat datang di Aplikasi Zawaris Syariah. Sistem komputasi terverifikasi Al-Qur'an, Hadits & KHI.</span>
+            </div>
+        </div>
+
         <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden bg-emerald-950/95 border-b border-emerald-800 px-4 pt-3 pb-5 space-y-2">
-            <button onclick="switchTab('dashboard'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-emerald-800/70">
+            <button onclick="switchTab('dashboard'); toggleMobileMenu()" id="mob-dashboard" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-emerald-800/70">
                 <i class="fa-solid fa-house mr-2 text-amber-400"></i> Beranda
             </button>
-            <button onclick="switchTab('faraidh'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-emerald-800/50">
+            <button onclick="switchTab('faraidh'); toggleMobileMenu()" id="mob-faraidh" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-emerald-800/50">
                 <i class="fa-solid fa-users-rays mr-2 text-amber-400"></i> Kalkulator Warisan (Faraidh)
             </button>
-            <button onclick="switchTab('zakat'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-emerald-800/50">
+            <button onclick="switchTab('zakat'); toggleMobileMenu()" id="mob-zakat" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-emerald-800/50">
                 <i class="fa-solid fa-hand-holding-dollar mr-2 text-amber-400"></i> Kalkulator 8 Jenis Zakat
             </button>
-            <button onclick="switchTab('consultation'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-emerald-800/50">
+            <button onclick="switchTab('consultation'); toggleMobileMenu()" id="mob-consultation" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-emerald-800/50">
                 <i class="fa-solid fa-robot mr-2 text-amber-400"></i> Tanya Konsultasi Syariah
             </button>
-            <button onclick="switchTab('encyclopedia'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-emerald-800/50">
+            <button onclick="switchTab('encyclopedia'); toggleMobileMenu()" id="mob-encyclopedia" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-emerald-800/50">
                 <i class="fa-solid fa-book-quran mr-2 text-amber-400"></i> Ensiklopedia Dalil & Kaidah
             </button>
+            <button onclick="switchTab('admin'); toggleMobileMenu()" id="mob-admin" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-amber-300 hover:bg-emerald-800/50 border border-amber-400/30 hidden">
+                <i class="fa-solid fa-gauge-high mr-2 text-amber-400"></i> Dashboard Pengelolaan Admin
+            </button>
+            <div class="pt-2 border-t border-emerald-800 flex items-center justify-between">
+                <div id="mobAuthStatus" class="text-xs text-emerald-200">Belum Login</div>
+                <button onclick="toggleAuthActionMobile()" id="btnMobAuthAction" class="px-4 py-1.5 rounded-lg bg-amber-400 text-emerald-950 font-bold text-xs">Login Admin</button>
+            </div>
         </div>
     </header>
 
@@ -157,28 +203,42 @@
         <!-- TAB 1: BERANDA / DASHBOARD                                     -->
         <!-- =============================================================== -->
         <section id="tab-dashboard" class="tab-content block space-y-8 animate-fade">
-            <!-- Hero Banner -->
+            <!-- Hero Banner (Teks & Foto dapat diedit mandiri via Dashboard Admin) -->
             <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 text-white p-6 sm:p-10 shadow-2xl">
-                <div class="relative z-10 max-w-2xl space-y-4">
-                    <span class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-semibold">
-                        <i class="fa-solid fa-award"></i>
-                        <span>Sistem Komputasi Mawaris Sesuai Al-Qur'an, Sunnah & KHI</span>
-                    </span>
-                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-                        Solusi Syar'i & Presisi <span class="text-amber-400">Zakat & Warisan</span>
-                    </h1>
-                    <p class="text-emerald-100 text-sm sm:text-base leading-relaxed">
-                        Aplikasi Zawaris memandu Anda menghitung pembagian harta waris bebas sengketa dengan algoritma Asal Masalah, 'Aul, Radd, dan Gharawain, serta menunaikan 8 jenis zakat berstandar nishab kontemporer.
-                    </p>
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        <button onclick="switchTab('faraidh')" class="px-6 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold text-sm shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center space-x-2">
-                            <i class="fa-solid fa-calculator"></i>
-                            <span>Mulai Hitung Warisan</span>
-                        </button>
-                        <button onclick="switchTab('zakat')" class="px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm backdrop-blur-sm transition-all flex items-center space-x-2">
-                            <i class="fa-solid fa-coins"></i>
-                            <span>Kalkulator Zakat</span>
-                        </button>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-semibold">
+                            <i class="fa-solid fa-award"></i>
+                            <span id="heroBadgeText">Sistem Komputasi Mawaris Sesuai Al-Qur'an, Sunnah & KHI</span>
+                        </span>
+                        <h1 id="heroTitleText" class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                            Solusi Syar'i & Presisi <span class="text-amber-400">Zakat & Warisan</span>
+                        </h1>
+                        <p id="heroSubtitleText" class="text-emerald-100 text-sm sm:text-base leading-relaxed">
+                            Aplikasi Zawaris memandu Anda menghitung pembagian harta waris bebas sengketa dengan algoritma Asal Masalah, 'Aul, Radd, dan Gharawain, serta menunaikan 8 jenis zakat berstandar nishab kontemporer.
+                        </p>
+                        <div class="flex flex-wrap gap-3 pt-2">
+                            <button onclick="switchTab('faraidh')" class="px-6 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-emerald-950 font-bold text-sm shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center space-x-2">
+                                <i class="fa-solid fa-calculator"></i>
+                                <span>Mulai Hitung Warisan</span>
+                            </button>
+                            <button onclick="switchTab('zakat')" class="px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm backdrop-blur-sm transition-all flex items-center space-x-2">
+                                <i class="fa-solid fa-coins"></i>
+                                <span>Kalkulator Zakat</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Area Foto / Talent Kanan (Dapat diupload Owner) -->
+                    <div class="lg:col-span-5 flex justify-center lg:justify-end">
+                        <div class="relative w-full max-w-sm rounded-3xl overflow-hidden border-2 border-amber-400/50 shadow-2xl bg-emerald-950/40 backdrop-blur group">
+                            <img id="heroTalentImage" src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Talent Zawaris" class="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent flex items-end p-4">
+                                <div class="text-xs text-white">
+                                    <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-emerald-950 font-extrabold text-[10px] uppercase tracking-wider block w-max mb-1">Tafaqquh Fiddin</span>
+                                    <p class="font-bold text-emerald-100">Bimbingan Zakat & Faraidh Presisi</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Islamic geometric decoration background icon -->
@@ -187,51 +247,43 @@
                 </div>
             </div>
 
-            <!-- Quick Action Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Card 1: Faraidh -->
-                <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group">
-                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-diagram-project"></i>
+            <!-- Section Warta & Postingan Syariah dari Grand Admin (Dinamis) -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-slate-800 flex items-center space-x-2">
+                            <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-sm"><i class="fa-solid fa-bullhorn"></i></span>
+                            <span>Kajian & Warta Syariah Pembina</span>
+                        </h3>
+                        <p class="text-slate-500 text-xs mt-0.5">Artikel, fatwa, dan panduan resmi yang dikelola langsung oleh Grand Administrator.</p>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">Simulasi Mawaris (Faraidh)</h3>
-                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">
-                        Pembersihan tirkah (gono-gini, utang, wasiat), deteksi hijab hirman, 'Aul, Radd, Gharawain, dan konversi nominal aset.
-                    </p>
-                    <button onclick="switchTab('faraidh')" class="text-emerald-600 group-hover:text-emerald-700 font-bold text-sm flex items-center space-x-1.5">
-                        <span>Buka Kalkulator Waris</span>
-                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    <button id="btnAdminWritePostDirect" onclick="switchTab('admin'); switchAdminSubTab('posts')" class="hidden px-3.5 py-1.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold text-xs transition items-center space-x-1">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span>Tulis Warta</span>
                     </button>
                 </div>
+                <div id="homePostsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <!-- Postingan dirender dinamis via JavaScript -->
+                </div>
+            </div>
 
-                <!-- Card 2: Zakat -->
-                <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-wallet"></i>
+            <!-- 3 Kartu Fitur Utama Di Bawah Warta (Kini Dilengkapi Thumbnail & Pengelolaan Mandiri) -->
+            <div class="space-y-4 pt-2">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-slate-800 flex items-center space-x-2">
+                            <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm"><i class="fa-solid fa-cubes"></i></span>
+                            <span>Layanan & Fitur Unggulan Zawaris</span>
+                        </h3>
+                        <p class="text-slate-500 text-xs mt-0.5">Akses langsung simulasi mawaris, audit zakat, dan tanya jawab syariah komprehensif.</p>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">8 Varian Zakat Terstandar</h3>
-                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">
-                        Hitung zakat maal, profesi/penghasilan, tijarah (perdagangan), emas/perak, pertanian, peternakan, rikaz, dan fitrah.
-                    </p>
-                    <button onclick="switchTab('zakat')" class="text-amber-600 group-hover:text-amber-700 font-bold text-sm flex items-center space-x-1.5">
-                        <span>Buka Kalkulator Zakat</span>
-                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    <button id="btnAdminEditCardsDirect" onclick="switchTab('admin'); switchAdminSubTab('cards')" class="hidden px-3.5 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition items-center space-x-1">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span>Atur 3 Kartu Ini</span>
                     </button>
                 </div>
-
-                <!-- Card 3: Tanya Konsultasi -->
-                <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group">
-                    <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-comments"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">Konsultasi Syariah Cerdas</h3>
-                    <p class="text-slate-600 text-sm mb-4 leading-relaxed">
-                        Ajukan pertanyaan seputar hukum warisan, wasiat wajibah, pembagian sama rata (ishlah), dan nishab zakat terkini.
-                    </p>
-                    <button onclick="switchTab('consultation')" class="text-teal-600 group-hover:text-teal-700 font-bold text-sm flex items-center space-x-1.5">
-                        <span>Mulai Diskusi Tanya Jawab</span>
-                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-                    </button>
+                <div id="homeQuickCardsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Diisi secara dinamis dengan gambar thumbnail berkualitas tinggi -->
                 </div>
             </div>
 
@@ -989,6 +1041,323 @@
             </div>
         </section>
 
+        <!-- =============================================================== -->
+        <!-- TAB 6: DASHBOARD PENGELOLAAN GRAND ADMINISTRATOR (OWNER)       -->
+        <!-- =============================================================== -->
+        <section id="tab-admin" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <img id="dashboardAdminAvatar" src="https://placehold.co/100x100/065f46/fbbf24?text=G" alt="Foto Profil" class="w-16 h-16 rounded-2xl border-2 border-amber-400 shadow-md object-cover">
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h2 class="text-2xl font-black text-slate-800" id="dashboardAdminDisplayName">Ghufron</h2>
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-extrabold text-[11px]">Grand Administrator & Owner</span>
+                        </div>
+                        <p class="text-slate-500 text-xs mt-1">Panel Kendali Mandiri: Pengelolaan Identitas, Menu, Warta, dan Tata Letak Zawaris.</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="handleLogout()" class="px-4 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs border border-rose-200 transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span>Keluar / Logout</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sub-tab Menu Pengelolaan Admin -->
+            <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-none">
+                <button onclick="switchAdminSubTab('profile')" id="asub-profile" class="asub-btn px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap bg-emerald-700 text-white shadow-md">
+                    <i class="fa-solid fa-user-gear mr-1.5"></i> Profil & Keamanan
+                </button>
+                <button onclick="switchAdminSubTab('menus')" id="asub-menus" class="asub-btn px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                    <i class="fa-solid fa-bars-staggered mr-1.5"></i> Kelola Menu Navigasi
+                </button>
+                <button onclick="switchAdminSubTab('posts')" id="asub-posts" class="asub-btn px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                    <i class="fa-solid fa-newspaper mr-1.5"></i> Kelola Postingan & Fatwa
+                </button>
+                <button onclick="switchAdminSubTab('cards')" id="asub-cards" class="asub-btn px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                    <i class="fa-solid fa-images mr-1.5"></i> 3 Kartu Fitur Utama
+                </button>
+                <button onclick="switchAdminSubTab('layout')" id="asub-layout" class="asub-btn px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
+                    <i class="fa-solid fa-palette mr-1.5"></i> Tata Letak & Teks Aplikasi
+                </button>
+            </div>
+
+            <!-- SUB-PANE 1: PROFIL & KATA SANDI -->
+            <div id="apane-profile" class="apane bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-6">
+                <div class="border-b pb-3">
+                    <h3 class="font-bold text-slate-800 text-lg">Pengaturan Profil & Keamanan Akun</h3>
+                    <p class="text-xs text-slate-500">Perbarui foto profil Anda dan perbarui kata sandi akun Grand Administrator.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Ubah Foto & Identitas -->
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                        <h4 class="font-bold text-sm text-slate-800 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-id-badge text-emerald-600"></i>
+                            <span>Identitas & Foto Profil</span>
+                        </h4>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Nama Tampilan Administrator</label>
+                            <input type="text" id="admInputDisplayName" value="Ghufron" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">URL Foto Profil</label>
+                            <input type="text" id="admInputAvatarUrl" placeholder="https://example.com/foto.jpg" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium">
+                            <p class="text-[10px] text-slate-400 mt-1">Atau pilih file foto langsung dari perangkat Anda di bawah:</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Unggah Foto Langsung</label>
+                            <input type="file" id="admInputAvatarFile" accept="image/*" onchange="handleAvatarFileSelect(event)" class="text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200">
+                        </div>
+                        <button onclick="saveAdminProfile()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow transition">
+                            Simpan Perubahan Profil
+                        </button>
+                    </div>
+
+                    <!-- Ganti Kata Sandi -->
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                        <h4 class="font-bold text-sm text-slate-800 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-key text-amber-600"></i>
+                            <span>Ganti Kata Sandi</span>
+                        </h4>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Kata Sandi Saat Ini</label>
+                            <input type="password" id="admInputOldPassword" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Kata Sandi Baru</label>
+                            <input type="password" id="admInputNewPassword" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">Konfirmasi Kata Sandi Baru</label>
+                            <input type="password" id="admInputConfirmPassword" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold">
+                        </div>
+                        <button onclick="saveAdminPassword()" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-xs shadow transition">
+                            Perbarui Kata Sandi
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-PANE 2: PENGELOLAAN MENU NAVIGASI -->
+            <div id="apane-menus" class="apane hidden bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+                <div class="border-b pb-3 flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg">Kelola Menu Navigasi</h3>
+                        <p class="text-xs text-slate-500">Ubah label teks menu dan atur visibilitas menu di antarmuka publik.</p>
+                    </div>
+                    <button onclick="saveMenuSettings()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow">
+                        Simpan Pengaturan Menu
+                    </button>
+                </div>
+                <div id="adminMenuListContainer" class="space-y-3">
+                    <!-- Diisi dinamis via JS -->
+                </div>
+            </div>
+
+            <!-- SUB-PANE 3: PENGELOLAAN POSTINGAN & KAJIAN -->
+            <div id="apane-posts" class="apane hidden bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-6">
+                <div class="border-b pb-3 flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg">Kelola Postingan, Warta & Fatwa</h3>
+                        <p class="text-xs text-slate-500">Publikasikan panduan baru atau studi kasus yang dapat dibaca seluruh pengguna di Beranda.</p>
+                    </div>
+                    <button onclick="togglePostFormModal()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-xs shadow flex items-center space-x-1.5">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Tulis Warta Baru</span>
+                    </button>
+                </div>
+
+                <!-- Form Tambah/Edit Postingan Baru Terintegrasi Penuh -->
+                <div id="adminPostFormContainer" class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                        <h4 class="font-bold text-sm text-slate-800" id="postFormTitle">
+                            <i class="fa-solid fa-pen-nib text-emerald-600 mr-1.5"></i>
+                            <span>Formulir Publikasi Warta Syariah</span>
+                        </h4>
+                        <span class="text-[11px] text-slate-400">Mode Editor Visual</span>
+                    </div>
+                    <input type="hidden" id="postFormEditId" value="">
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- Kolom Kiri: Input Field (7 Kolom) -->
+                        <div class="lg:col-span-7 space-y-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Judul Postingan / Kajian</label>
+                                <input type="text" id="postInputTitle" oninput="updateLivePostPreview()" placeholder="Contoh: Panduan Mahir Faraidh & Solusi Sengketa Harta Bersama..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Kategori (Badge Kiri Atas)</label>
+                                    <select id="postInputCategory" onchange="updateLivePostPreview()" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                        <option value="E-BOOK & PANDUAN">E-BOOK & PANDUAN</option>
+                                        <option value="FATWA & KHI">FATWA & KHI</option>
+                                        <option value="FIKIH ZAKAT">FIKIH ZAKAT</option>
+                                        <option value="FIKIH MAWARIS">FIKIH MAWARIS</option>
+                                        <option value="PENGUMUMAN">PENGUMUMAN RESMI</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Badge Kanan Atas (Aksen Merah/Gold)</label>
+                                    <input type="text" id="postInputBadgeRight" oninput="updateLivePostPreview()" placeholder="Contoh: -100% BEBAS SENGKETA, FATWA RESMI" value="PANDUAN RESMI" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Badge Kiri Bawah</label>
+                                    <input type="text" id="postInputBadgeBottom" oninput="updateLivePostPreview()" placeholder="Personal License / Sanad Shahih" value="Personal License" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Rating Bintang</label>
+                                    <input type="text" id="postInputRating" oninput="updateLivePostPreview()" placeholder="4.9 (218)" value="4.9 (218)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-1">Statistik Unduh/Baca</label>
+                                    <input type="text" id="postInputReads" oninput="updateLivePostPreview()" placeholder="940 Terjual / Unduhan" value="940 Unduhan" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Tagar Hashtag (Pisahkan dengan koma)</label>
+                                <input type="text" id="postInputTags" oninput="updateLivePostPreview()" placeholder="#Faraidh, #Mawaris, #KHI" value="#Faraidh, #HartaBersama, #KHI" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Ringkasan / Uraian Postingan</label>
+                                <textarea id="postInputContent" oninput="updateLivePostPreview()" rows="3" placeholder="Tuliskan uraian ringkas mengenai intisari kajian syariah ini..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                            </div>
+
+                            <!-- Opsi Gambar Thumbnail -->
+                            <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-3">
+                                <span class="text-xs font-bold text-slate-700 block"><i class="fa-solid fa-image text-emerald-600 mr-1"></i> Pengaturan Thumbnail Gambar</span>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-500 mb-1">URL Gambar Thumbnail</label>
+                                    <input type="text" id="postInputImageUrl" oninput="updateLivePostPreview()" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs">
+                                </div>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <label class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs cursor-pointer border border-slate-200 flex items-center space-x-1">
+                                        <i class="fa-solid fa-upload"></i>
+                                        <span>Unggah dari Perangkat</span>
+                                        <input type="file" accept="image/*" onchange="handlePostImageFileSelect(event)" class="hidden">
+                                    </label>
+                                    <button type="button" id="btnGenerateAiThumb" onclick="generateAiThumbnailForPost()" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-bold text-xs shadow flex items-center space-x-1.5 hover:from-teal-700 hover:to-emerald-700">
+                                        <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i>
+                                        <span id="aiGenBtnText">Generate Gambar AI</span>
+                                    </button>
+                                </div>
+                                <div>
+                                    <span class="text-[11px] font-bold text-slate-500 block mb-1.5">Atau Pilih dari Preset Gambar Berkualitas Tinggi:</span>
+                                    <div id="presetThumbnailsGrid" class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                                        <!-- Diisi via JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kolom Kanan: Live Card Preview (5 Kolom) -->
+                        <div class="lg:col-span-5 space-y-2">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider block"><i class="fa-solid fa-eye text-emerald-600 mr-1"></i> Pratinjau Tampilan Kartu (Live Preview):</span>
+                            <div id="liveCardPreviewContainer" class="sticky top-24">
+                                <!-- Rendered dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-2 pt-3 border-t border-slate-200">
+                        <button onclick="resetPostForm()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-xs font-semibold hover:bg-slate-100">Batal / Reset</button>
+                        <button onclick="handleSavePost()" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition transform hover:-translate-y-0.5 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Terbitkan Warta Sekarang</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Daftar Postingan yang Ada -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Daftar Warta yang Telah Diterbitkan:</span>
+                    <div id="adminPostListTable" class="divide-y divide-slate-100 border rounded-2xl overflow-hidden">
+                        <!-- Diisi via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-PANE BARU: PENGELOLAAN 3 KARTU FITUR UTAMA DENGAN THUMBNAIL -->
+            <div id="apane-cards" class="apane hidden bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-6">
+                <div class="border-b pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg">Kelola 3 Box Fitur Bawah (Dengan Thumbnail)</h3>
+                        <p class="text-xs text-slate-500">Atur gambar thumbnail, judul, deskripsi, dan tombol tindakan pada 3 box fitur utama di Beranda.</p>
+                    </div>
+                    <button onclick="saveAllQuickCards()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow flex items-center space-x-1.5">
+                        <i class="fa-solid fa-check-double"></i>
+                        <span>Simpan Seluruh Kartu Fitur</span>
+                    </button>
+                </div>
+
+                <!-- Formulir Editor 3 Kartu Fitur -->
+                <div id="adminQuickCardsList" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Diisi dinamis via JS -->
+                </div>
+            </div>
+
+            <!-- SUB-PANE 4: TATA LETAK & KUSTOMISASI TEKS -->
+            <div id="apane-layout" class="apane hidden bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-6">
+                <div class="border-b pb-3 flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg">Pengaturan Tata Letak & Teks Aplikasi</h3>
+                        <p class="text-xs text-slate-500">Sesuaikan narasi banner, running announcement, foto talent hero, dan catatan footer.</p>
+                    </div>
+                    <button onclick="saveLayoutSettings()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow">
+                        Terapkan Perubahan Tata Letak
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Badge Atas Banner Utama</label>
+                        <input type="text" id="layoutHeroBadge" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Teks Banner Berjalan (Running Announcement)</label>
+                        <input type="text" id="layoutAnnouncement" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Judul Utama Banner (HTML didukung)</label>
+                        <input type="text" id="layoutHeroTitle" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-bold">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Subjudul / Deskripsi Banner</label>
+                        <textarea id="layoutHeroSubtitle" rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Foto Hero Banner Kanan (URL atau Unggah File)</label>
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <input type="text" id="layoutHeroImage" placeholder="https://images.unsplash.com/..." class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold">
+                            <label class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold cursor-pointer border flex items-center justify-center space-x-1.5 shrink-0">
+                                <i class="fa-solid fa-upload"></i>
+                                <span>Pilih File</span>
+                                <input type="file" accept="image/*" onchange="handleHeroImageFileSelect(event)" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Teks Hak Cipta Footer</label>
+                        <input type="text" id="layoutFooterNote" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Visibilitas Banner Berjalan</label>
+                        <select id="layoutToggleAnnouncement" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold bg-white">
+                            <option value="true">Tampilkan Banner Berjalan</option>
+                            <option value="false">Sembunyikan Banner Berjalan</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- FOOTER -->
@@ -1003,11 +1372,89 @@
                     <p class="text-[11px] text-slate-500">Sistem Pakar Komputasi Zakat & Faraidh Syariah</p>
                 </div>
             </div>
-            <div class="text-center sm:text-right text-[11px] text-slate-500">
-                Mematuhi Nash Al-Qur'an, Hadits Shahih, Ijmak Fuqaha & Kompilasi Hukum Islam (KHI).
+            <div id="footerCopyrightText" class="text-center sm:text-right text-[11px] text-slate-500">
+                Mematuhi Nash Al-Qur'an, Hadits Shahih, Ijmak Fuqaha & Kompilasi Hukum Islam (KHI). Dikelola Mandiri oleh Grand Administrator.
             </div>
         </div>
     </footer>
+
+    <!-- MODAL LOGIN GRAND ADMINISTRATOR -->
+    <div id="loginModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-7 shadow-2xl space-y-4 border border-slate-100">
+            <div class="flex items-center justify-between border-b pb-3">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-xl bg-amber-400 text-emerald-950 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-slate-800 text-base">Login Administrator</h3>
+                        <p class="text-[10px] text-slate-400">Portal Pengelolaan Mandiri Zawaris</p>
+                    </div>
+                </div>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-3.5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Username</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" id="loginUsernameInput" required placeholder="Masukkan username" class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" id="loginPasswordInput" required placeholder="Masukkan kata sandi" class="w-full pl-9 pr-10 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <button type="button" onclick="togglePasswordVisibility('loginPasswordInput', 'passEyeIcon')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 text-xs">
+                            <i id="passEyeIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="loginErrorMessage" class="hidden p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-[11px] text-rose-700 font-medium">
+                    <!-- Pesan Kesalahan -->
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center space-x-1.5">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>Masuk ke Dashboard</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+    <!-- MODAL KONFIRMASI HAPUS POSTINGAN (PENGGANTI CONFIRM NATIVE) -->
+    <div id="deleteConfirmModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 border border-slate-100 text-center">
+            <div class="w-14 h-14 mx-auto rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="space-y-1">
+                <h3 class="text-lg font-black text-slate-800">Hapus Warta Ini?</h3>
+                <p id="deletePostConfirmText" class="text-xs text-slate-500 leading-relaxed">
+                    Apakah Anda yakin ingin menghapus postingan kajian ini secara permanen?
+                </p>
+            </div>
+            <input type="hidden" id="deleteTargetPostId" value="">
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="closeDeleteModal()" class="py-2.5 rounded-xl border border-slate-200 text-slate-600 text-xs font-semibold hover:bg-slate-100">
+                    Batal
+                </button>
+                <button onclick="executeDeletePost()" class="py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-md transition">
+                    Ya, Hapus Warta
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL DALIL -->
     <div id="dalilModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
@@ -1067,6 +1514,143 @@
         let lastFaraidhResult = null;
         let lastZakatResult = null;
 
+        /* =================================================================
+           1.1. GRAND ADMINISTRATOR & APPLICATION MANAGEMENT STATE
+           ================================================================= */
+        let currentUser = null; // Terisi saat Grand Admin login
+        let adminCredentials = {
+            username: 'Ghufron',
+            password: 'Bismill4H*',
+            displayName: 'Ghufron',
+            role: 'Grand Administrator & Owner',
+            avatarUrl: 'https://placehold.co/100x100/065f46/fbbf24?text=G'
+        };
+
+        let appMenus = [
+            { id: 'dashboard', label: 'Beranda', icon: 'fa-house', enabled: true },
+            { id: 'faraidh', label: 'Kalkulator Warisan', icon: 'fa-users-rays', enabled: true },
+            { id: 'zakat', label: 'Kalkulator Zakat', icon: 'fa-hand-holding-dollar', enabled: true },
+            { id: 'consultation', label: 'Tanya Syariah', icon: 'fa-robot', enabled: true },
+            { id: 'encyclopedia', label: 'Ensiklopedia', icon: 'fa-book-quran', enabled: true }
+        ];
+
+        // Konfigurasi 3 Box Layanan & Fitur Utama dengan Gambar Thumbnail Berkualitas Tinggi
+        let appQuickCards = [
+            {
+                id: 'card_faraidh',
+                title: 'Simulasi Mawaris (Faraidh)',
+                badge: 'ILMU FARAIDH',
+                description: 'Pembersihan tirkah (gono-gini 50%, utang, wasiat), deteksi hijab hirman, Asal Masalah, \'Aul, Radd, Gharawain, dan konversi nominal aset fisik.',
+                targetTab: 'faraidh',
+                buttonText: 'Buka Kalkulator Waris',
+                imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80',
+                accentColor: 'emerald'
+            },
+            {
+                id: 'card_zakat',
+                title: '8 Varian Zakat Terstandarisasi',
+                badge: 'STANDAR BAZNAS',
+                description: 'Hitung zakat maal, profesi/penghasilan, tijarah (perdagangan), emas/perak, pertanian, peternakan, rikaz, dan fitrah dengan nishab otomatis.',
+                targetTab: 'zakat',
+                buttonText: 'Buka Kalkulator Zakat',
+                imageUrl: 'https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=800&q=80',
+                accentColor: 'amber'
+            },
+            {
+                id: 'card_consultation',
+                title: 'Konsultasi Syariah Cerdas',
+                badge: 'AI SYARIAH EXPERT',
+                description: 'Ajukan pertanyaan seputar hukum warisan, wasiat wajibah, pembagian sama rata (ishlah), sengketa keluarga, dan panduan zakat kontemporer.',
+                targetTab: 'consultation',
+                buttonText: 'Mulai Diskusi Tanya Jawab',
+                imageUrl: 'https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=800&q=80',
+                accentColor: 'teal'
+            }
+        ];
+
+        // Contoh Gambar Berkualitas Tinggi (Preset Gallery)
+        const PRESET_THUMBNAILS = [
+            {
+                name: "Al-Qur'an & Kitab",
+                url: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Buku Terbuka & Pena",
+                url: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Timbangan Keadilan",
+                url: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Emas & Tabungan",
+                url: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Kubah & Ornamen",
+                url: "https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                name: "Dokumen & Arsip",
+                url: "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        let appPosts = [
+            {
+                id: 'p1',
+                title: 'Panduan Mahir Faraidh & Solusi Sengketa Harta Bersama 2026',
+                category: 'E-BOOK & PANDUAN',
+                date: '07 September 2026',
+                author: 'Ghufron (Pembina Zawaris)',
+                content: 'Kompilasi praktis pemisahan hak 50% gono-gini sebelum bagi waris, tata cara pelunasan utang kreditor, dan audit wasiat.',
+                imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
+                badgeRight: '-100% BEBAS SENGKETA',
+                badgeBottom: 'Personal License',
+                rating: '4.9 (218)',
+                reads: '940 Unduhan',
+                tags: ['#Faraidh', '#HartaBersama', '#KHI']
+            },
+            {
+                id: 'p2',
+                title: 'Hukum Pembagian Warisan Sama Rata dalam Tinjauan Ishlah Syar\'i',
+                category: 'FATWA & KHI',
+                date: '05 September 2026',
+                author: 'Ghufron (Pembina Zawaris)',
+                content: 'Bagi waris sama rata hanya sah jika hak faraidh asal telah diketahui transparan dan disetujui sukarela seluruh ahli waris.',
+                imageUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80',
+                badgeRight: 'FATWA RESMI',
+                badgeBottom: 'Ijmak & Qiyas',
+                rating: '5.0 (342)',
+                reads: '1.4k Dibaca',
+                tags: ['#Ishlah', '#BagiRata', '#Taradhi']
+            },
+            {
+                id: 'p3',
+                title: 'Standar Nishab 85g Emas & Audit Zakat Perusahaan Kontemporer',
+                category: 'FIKIH ZAKAT',
+                date: '01 September 2026',
+                author: 'Ghufron (Pembina Zawaris)',
+                content: 'Penetapan ambang batas nishab emas simpanan, investasi saham, dan perniagaan sesuai pedoman mutakhir BAZNAS RI.',
+                imageUrl: 'https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=800&q=80',
+                badgeRight: 'EDUKASI BAZNAS',
+                badgeBottom: 'Nishab 85g',
+                rating: '4.8 (195)',
+                reads: '820 Dibaca',
+                tags: ['#ZakatMaal', '#BAZNAS', '#Investasi']
+            }
+        ];
+
+        let appLayout = {
+            heroBadge: "Sistem Komputasi Mawaris Sesuai Al-Qur'an, Sunnah & KHI",
+            heroTitle: "Solusi Syar'i & Presisi <span class=\"text-amber-400\">Zakat & Warisan</span>",
+            heroSubtitle: "Aplikasi Zawaris memandu Anda menghitung pembagian harta waris bebas sengketa dengan algoritma Asal Masalah, 'Aul, Radd, dan Gharawain, serta menunaikan 8 jenis zakat berstandar nishab kontemporer.",
+            heroImageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80",
+            announcementText: "Selamat datang di Aplikasi Zawaris Syariah. Sistem komputasi terverifikasi Al-Qur'an, Hadits & KHI.",
+            showAnnouncement: true,
+            footerNote: "Mematuhi Nash Al-Qur'an, Hadits Shahih, Ijmak Fuqaha & Kompilasi Hukum Islam (KHI). Dikelola Mandiri oleh Grand Administrator."
+        };
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             const target = document.getElementById('tab-' + tabId);
@@ -1089,79 +1673,1024 @@
             m.classList.toggle('hidden');
         }
 
-        function formatIDR(num) {
-            return 'Rp ' + Math.round(num).toLocaleString('id-ID');
+        function openLoginModal() {
+            document.getElementById('loginErrorMessage').classList.add('hidden');
+            document.getElementById('loginUsernameInput').value = '';
+            document.getElementById('loginPasswordInput').value = '';
+            document.getElementById('loginModal').classList.remove('hidden');
+            document.getElementById('loginModal').classList.add('flex');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('loginModal').classList.remove('flex');
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const inp = document.getElementById(inputId);
+            const ico = document.getElementById(iconId);
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                ico.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                inp.type = 'password';
+                ico.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const u = document.getElementById('loginUsernameInput').value.trim();
+            const p = document.getElementById('loginPasswordInput').value;
+            const errEl = document.getElementById('loginErrorMessage');
+
+            if (u === adminCredentials.username && p === adminCredentials.password) {
+                currentUser = {
+                    username: adminCredentials.username,
+                    displayName: adminCredentials.displayName,
+                    role: adminCredentials.role,
+                    avatarUrl: adminCredentials.avatarUrl
+                };
+                closeLoginModal();
+                updateAuthUI();
+                showToast('success', 'Login Berhasil', `Selamat datang kembali, Grand Administrator ${currentUser.displayName}!`);
+                switchTab('admin');
+            } else {
+                errEl.innerText = "Username atau password salah! Gunakan akun Grand Administrator.";
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            updateAuthUI();
+            showToast('info', 'Logout Berhasil', 'Anda telah keluar dari mode Grand Administrator.');
+            switchTab('dashboard');
+        }
+
+        function toggleAuthActionMobile() {
+            if (currentUser) {
+                handleLogout();
+                toggleMobileMenu();
+            } else {
+                toggleMobileMenu();
+                openLoginModal();
+            }
+        }
+
+        function updateAuthUI() {
+            const btnLogin = document.getElementById('btnLoginTrigger');
+            const adminBadge = document.getElementById('adminUserBadge');
+            const navAdmin = document.getElementById('nav-admin');
+            const mobAdmin = document.getElementById('mob-admin');
+            const mobAuthStatus = document.getElementById('mobAuthStatus');
+            const btnMobAuth = document.getElementById('btnMobAuthAction');
+            const writeBtnDirect = document.getElementById('btnAdminWritePostDirect');
+            const editCardsDirect = document.getElementById('btnAdminEditCardsDirect');
+
+            if (currentUser) {
+                btnLogin.classList.add('hidden');
+                adminBadge.classList.remove('hidden');
+                document.getElementById('headerAdminName').innerText = currentUser.displayName;
+                document.getElementById('headerAdminAvatar').src = currentUser.avatarUrl;
+                document.getElementById('dashboardAdminAvatar').src = currentUser.avatarUrl;
+                document.getElementById('dashboardAdminDisplayName').innerText = currentUser.displayName;
+                navAdmin.classList.remove('hidden');
+                mobAdmin.classList.remove('hidden');
+                mobAuthStatus.innerText = `Login: ${currentUser.displayName} (Grand Admin)`;
+                btnMobAuth.innerText = 'Logout';
+                if (writeBtnDirect) {
+                    writeBtnDirect.classList.remove('hidden');
+                    writeBtnDirect.classList.add('inline-flex');
+                }
+                if (editCardsDirect) {
+                    editCardsDirect.classList.remove('hidden');
+                    editCardsDirect.classList.add('inline-flex');
+                }
+            } else {
+                btnLogin.classList.remove('hidden');
+                adminBadge.classList.add('hidden');
+                navAdmin.classList.add('hidden');
+                mobAdmin.classList.add('hidden');
+                mobAuthStatus.innerText = 'Belum Login';
+                btnMobAuth.innerText = 'Login Admin';
+                if (writeBtnDirect) {
+                    writeBtnDirect.classList.add('hidden');
+                    writeBtnDirect.classList.remove('inline-flex');
+                }
+                if (editCardsDirect) {
+                    editCardsDirect.classList.add('hidden');
+                    editCardsDirect.classList.remove('inline-flex');
+                }
+            }
+            renderHomePosts();
+            renderHomeQuickCards();
+        }
+
+        /* =================================================================
+           1.2. LOCAL STORAGE PERSISTENCE ENGINE
+           ================================================================= */
+        function loadAllFromStorage() {
+            try {
+                const savedPosts = localStorage.getItem('zawaris_posts');
+                if (savedPosts) appPosts = JSON.parse(savedPosts);
+
+                const savedLayout = localStorage.getItem('zawaris_layout');
+                if (savedLayout) appLayout = JSON.parse(savedLayout);
+
+                const savedCards = localStorage.getItem('zawaris_quick_cards');
+                if (savedCards) appQuickCards = JSON.parse(savedCards);
+
+                const savedAdmin = localStorage.getItem('zawaris_admin_cred');
+                if (savedAdmin) adminCredentials = JSON.parse(savedAdmin);
+
+                const savedMenus = localStorage.getItem('zawaris_menus');
+                if (savedMenus) appMenus = JSON.parse(savedMenus);
+            } catch (err) {
+                console.warn("Storage load warning:", err);
+            }
+        }
+
+        function saveAllToStorage() {
+            try {
+                localStorage.setItem('zawaris_posts', JSON.stringify(appPosts));
+                localStorage.setItem('zawaris_layout', JSON.stringify(appLayout));
+                localStorage.setItem('zawaris_quick_cards', JSON.stringify(appQuickCards));
+                localStorage.setItem('zawaris_admin_cred', JSON.stringify(adminCredentials));
+                localStorage.setItem('zawaris_menus', JSON.stringify(appMenus));
+            } catch (err) {
+                console.warn("Storage save error:", err);
+            }
+        }
+
+        /* =================================================================
+           1.3. POSTS MANAGEMENT (CREATE, READ, UPDATE, DELETE)
+           ================================================================= */
+        function deletePost(id) {
+            const post = appPosts.find(p => p.id === id);
+            if (!post) return;
+
+            document.getElementById('deleteTargetPostId').value = id;
+            document.getElementById('deletePostConfirmText').innerText = `Apakah Anda yakin ingin menghapus warta: "${post.title}"? Tindakan ini tidak dapat dibatalkan.`;
+            const modal = document.getElementById('deleteConfirmModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteConfirmModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function executeDeletePost() {
+            const id = document.getElementById('deleteTargetPostId').value;
+            if (!id) return;
+
+            const idx = appPosts.findIndex(p => p.id === id);
+            if (idx !== -1) {
+                const title = appPosts[idx].title;
+                appPosts.splice(idx, 1);
+                saveAllToStorage();
+                renderAdminPostsList();
+                showToast('info', 'Warta Dihapus', `Postingan "${title}" berhasil dihapus.`);
+            }
+            closeDeleteModal();
+        }
+
+        function switchAdminSubTab(sub) {
+            document.querySelectorAll('.apane').forEach(p => p.classList.add('hidden'));
+            const targetPane = document.getElementById('apane-' + sub);
+            if (targetPane) targetPane.classList.remove('hidden');
+
+            document.querySelectorAll('.asub-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-700', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-600');
+            });
+            const active = document.getElementById('asub-' + sub);
+            if (active) {
+                active.classList.add('bg-emerald-700', 'text-white', 'shadow-md');
+                active.classList.remove('bg-white', 'text-slate-600');
+            }
+        }
+
+        function handleAvatarFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const dataUrl = evt.target.result;
+                    document.getElementById('admInputAvatarUrl').value = dataUrl;
+                    document.getElementById('dashboardAdminAvatar').src = dataUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveAdminProfile() {
+            const name = document.getElementById('admInputDisplayName').value.trim();
+            const avatar = document.getElementById('admInputAvatarUrl').value.trim();
+
+            if (name) {
+                adminCredentials.displayName = name;
+                if (currentUser) currentUser.displayName = name;
+            }
+            if (avatar) {
+                adminCredentials.avatarUrl = avatar;
+                if (currentUser) currentUser.avatarUrl = avatar;
+            }
+
+            updateAuthUI();
+            showToast('success', 'Profil Diperbarui', 'Nama dan foto profil Grand Administrator berhasil disimpan.');
+        }
+
+        function saveAdminPassword() {
+            const oldPass = document.getElementById('admInputOldPassword').value;
+            const newPass = document.getElementById('admInputNewPassword').value;
+            const confirmPass = document.getElementById('admInputConfirmPassword').value;
+
+            if (oldPass !== adminCredentials.password) {
+                showToast('error', 'Gagal Mengubah Sandi', 'Kata sandi saat ini yang Anda masukkan salah!');
+                return;
+            }
+            if (!newPass || newPass.length < 6) {
+                showToast('error', 'Sandi Kurang Kuat', 'Kata sandi baru minimal 6 karakter.');
+                return;
+            }
+            if (newPass !== confirmPass) {
+                showToast('error', 'Konfirmasi Tidak Cocok', 'Konfirmasi kata sandi tidak sama dengan kata sandi baru.');
+                return;
+            }
+
+            adminCredentials.password = newPass;
+            document.getElementById('admInputOldPassword').value = '';
+            document.getElementById('admInputNewPassword').value = '';
+            document.getElementById('admInputConfirmPassword').value = '';
+            showToast('success', 'Sandi Berhasil Diubah', 'Kata sandi baru telah aktif untuk sesi login berikutnya.');
+        }
+
+        function renderAdminMenuManager() {
+            const container = document.getElementById('adminMenuListContainer');
+            container.innerHTML = '';
+
+            appMenus.forEach((menu, index) => {
+                const row = document.createElement('div');
+                row.className = 'p-3.5 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+                row.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="w-8 h-8 rounded-xl bg-white border border-slate-200 text-emerald-700 flex items-center justify-center text-sm font-bold">
+                            <i class="fa-solid ${menu.icon}"></i>
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold text-slate-800 block">${menu.id.toUpperCase()}</span>
+                            <span class="text-[11px] text-slate-500">Target Tab: tab-${menu.id}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <input type="text" id="menuLabel_${menu.id}" value="${menu.label}" class="px-2.5 py-1 rounded-lg border border-slate-200 text-xs font-semibold">
+                        <label class="flex items-center space-x-1 text-xs text-slate-700 cursor-pointer">
+                            <input type="checkbox" id="menuToggle_${menu.id}" ${menu.enabled ? 'checked' : ''} class="rounded text-emerald-600">
+                            <span>Aktif</span>
+                        </label>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function saveMenuSettings() {
+            appMenus.forEach(menu => {
+                const labelInp = document.getElementById(`menuLabel_${menu.id}`);
+                const toggleInp = document.getElementById(`menuToggle_${menu.id}`);
+                if (labelInp) menu.label = labelInp.value.trim() || menu.label;
+                if (toggleInp) menu.enabled = toggleInp.checked;
+
+                // Perbarui di DOM navigasi
+                const navBtn = document.getElementById(`nav-${menu.id}`);
+                const mobBtn = document.getElementById(`mob-${menu.id}`);
+
+                if (navBtn) {
+                    const labelSpan = navBtn.querySelector('.nav-label');
+                    if (labelSpan) labelSpan.innerText = menu.label;
+                    if (!menu.enabled) navBtn.classList.add('hidden');
+                    else navBtn.classList.remove('hidden');
+                }
+                if (mobBtn) {
+                    if (!menu.enabled) mobBtn.classList.add('hidden');
+                    else mobBtn.classList.remove('hidden');
+                }
+            });
+            showToast('success', 'Menu Disimpan', 'Pengaturan navigasi aplikasi berhasil diterapkan.');
+        }
+
+        function renderAdminPostsList() {
+            const table = document.getElementById('adminPostListTable');
+            table.innerHTML = '';
+
+            appPosts.forEach((post, i) => {
+                const row = document.createElement('div');
+                row.className = 'p-3.5 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 transition';
+                row.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <img src="${post.imageUrl || PRESET_THUMBNAILS[0].url}" alt="Thumb" class="w-14 h-14 rounded-xl object-cover border border-slate-200 shrink-0">
+                        <div class="space-y-0.5">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-0.5 rounded-full bg-slate-900 text-amber-300 text-[10px] font-extrabold">${post.category}</span>
+                                <span class="text-[11px] text-slate-400">${post.date}</span>
+                            </div>
+                            <h5 class="text-xs font-bold text-slate-800 line-clamp-1">${post.title}</h5>
+                            <p class="text-[11px] text-slate-500 line-clamp-1">${post.content}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 shrink-0">
+                        <button onclick="editPost('${post.id}')" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">
+                            <i class="fa-solid fa-pen mr-1"></i> Edit
+                        </button>
+                        <button onclick="deletePost('${post.id}')" class="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold">
+                            <i class="fa-solid fa-trash mr-1"></i> Hapus
+                        </button>
+                    </div>
+                `;
+                table.appendChild(row);
+            });
+
+            renderHomePosts();
+            renderPresetThumbnails();
+            updateLivePostPreview();
+        }
+
+        function renderPresetThumbnails() {
+            const grid = document.getElementById('presetThumbnailsGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            PRESET_THUMBNAILS.forEach((preset, idx) => {
+                const item = document.createElement('div');
+                item.className = 'cursor-pointer group relative rounded-xl overflow-hidden border border-slate-200 hover:border-emerald-500 transition aspect-[4/3]';
+                item.onclick = () => selectPresetThumbnail(preset.url);
+                item.innerHTML = `
+                    <img src="${preset.url}" alt="${preset.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition flex items-end p-1">
+                        <span class="text-[9px] font-bold text-white leading-tight drop-shadow truncate">${preset.name}</span>
+                    </div>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        function selectPresetThumbnail(url) {
+            document.getElementById('postInputImageUrl').value = url;
+            updateLivePostPreview();
+            showToast('info', 'Thumbnail Dipilih', 'Gambar preset berhasil diterapkan ke pratinjau.');
+        }
+
+        function handlePostImageFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const dataUrl = evt.target.result;
+                    document.getElementById('postInputImageUrl').value = dataUrl;
+                    updateLivePostPreview();
+                    showToast('success', 'Gambar Diunggah', 'Foto lokal berhasil dimuat ke thumbnail.');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function generateAiThumbnailForPost() {
+            const title = document.getElementById('postInputTitle').value.trim() || "Kajian Fikih Zakat & Warisan Syariah";
+            const category = document.getElementById('postInputCategory').value || "Fikih Mawaris";
+            const btn = document.getElementById('btnGenerateAiThumb');
+            const btnText = document.getElementById('aiGenBtnText');
+
+            btn.disabled = true;
+            btn.classList.add('opacity-70', 'cursor-not-allowed');
+            btnText.innerText = "Sedang Melukis AI...";
+
+            const userPrompt = `A high-end, clean, aesthetic photographic Islamic study book or guide cover about ${title}, category ${category}. Top view with an elegant open Arabic book, glasses, warm coffee cup, soft sunlight, highly detailed, professional product photography for educational app.`;
+
+            const apiKey = ""; // API Key disuntikkan secara otomatis saat runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-image:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: userPrompt }]
+                }],
+                generationConfig: {
+                    responseModalities: ['TEXT', 'IMAGE']
+                },
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP_${response.status}`);
+                }
+
+                const result = await response.json();
+                const base64Data = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+
+                if (base64Data) {
+                    const imageUrl = `data:image/png;base64,${base64Data}`;
+                    document.getElementById('postInputImageUrl').value = imageUrl;
+                    updateLivePostPreview();
+                    showToast('success', 'Gambar AI Berhasil Dibuat', 'Ilustrasi AI telah dihasilkan dan siap dipublikasikan!');
+                } else {
+                    throw new Error('NO_IMAGE_DATA');
+                }
+            } catch (err) {
+                console.warn('AI Image Generation fallback to preset:', err);
+                // Fallback pintar ke gambar preset terindah jika API kuota/jaringan sibuk
+                const randomPreset = PRESET_THUMBNAILS[Math.floor(Math.random() * PRESET_THUMBNAILS.length)].url;
+                document.getElementById('postInputImageUrl').value = randomPreset;
+                updateLivePostPreview();
+                showToast('info', 'Gambar Pilihan Diterapkan', 'Ilustrasi kurasi berkualitas tinggi telah disematkan.');
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('opacity-70', 'cursor-not-allowed');
+                btnText.innerText = "Generate Gambar AI";
+            }
+        }
+
+        function updateLivePostPreview() {
+            const container = document.getElementById('liveCardPreviewContainer');
+            if (!container) return;
+
+            const title = document.getElementById('postInputTitle').value.trim() || "Panduan Mahir Marketing Digital & Automasi Sales 2026...";
+            const category = document.getElementById('postInputCategory').value || "E-BOOK & PANDUAN";
+            const badgeRight = document.getElementById('postInputBadgeRight').value.trim() || "-60% OFF";
+            const badgeBottom = document.getElementById('postInputBadgeBottom').value.trim() || "Personal License";
+            const rating = document.getElementById('postInputRating').value.trim() || "4.9 (218)";
+            const reads = document.getElementById('postInputReads').value.trim() || "940 Terjual";
+            const content = document.getElementById('postInputContent').value.trim() || "E-Book Komprehensif Bahasa Indonesia Membahas Strategi Meta Ads, TikTok...";
+            const imageUrl = document.getElementById('postInputImageUrl').value.trim() || PRESET_THUMBNAILS[0].url;
+            const tagsStr = document.getElementById('postInputTags').value.trim() || "#Ebook, #Digital Marketing, #Funneling";
+            const tagsArr = tagsStr.split(',').map(t => t.trim()).filter(t => t.length > 0);
+
+            container.innerHTML = generateCardMarkup({
+                title,
+                category,
+                badgeRight,
+                badgeBottom,
+                rating,
+                reads,
+                content,
+                imageUrl,
+                tags: tagsArr
+            });
+        }
+
+        function generateCardMarkup(post) {
+            const tagsHtml = (post.tags || []).map(tag => {
+                const cleanTag = tag.startsWith('#') ? tag : '#' + tag;
+                return `<span class="px-2.5 py-1 rounded-lg bg-slate-800/90 text-sky-300 text-[10px] font-semibold border border-slate-700/60 transition hover:bg-slate-700">${cleanTag}</span>`;
+            }).join(' ');
+
+            return `
+                <div class="rounded-3xl bg-[#0b1329] border border-slate-800 shadow-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-cyan-900/20 group">
+                    <!-- Area Thumbnail Gambar dengan Multi-Badge Sesuai Referensi -->
+                    <div class="relative w-full aspect-[16/10] overflow-hidden bg-slate-900">
+                        <img src="${post.imageUrl || PRESET_THUMBNAILS[0].url}" alt="${post.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0b1329] via-transparent to-black/30 pointer-events-none"></div>
+
+                        <!-- Badge Kiri Atas: Gelap & Tegas -->
+                        <div class="absolute top-3.5 left-3.5">
+                            <span class="px-3 py-1 rounded-xl bg-slate-900/90 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-wider border border-white/10 shadow-lg">
+                                ${post.category || 'PANDUAN'}
+                            </span>
+                        </div>
+
+                        <!-- Badge Kanan Atas: Aksen Kontras / Pink / Gold -->
+                        <div class="absolute top-3.5 right-3.5">
+                            <span class="px-3 py-1 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 text-white text-[10px] font-black uppercase tracking-wider shadow-lg">
+                                ${post.badgeRight || 'RESMI'}
+                            </span>
+                        </div>
+
+                        <!-- Badge Kiri Bawah: Glassmorphism Elegan -->
+                        <div class="absolute bottom-3 left-3.5">
+                            <span class="px-2.5 py-0.5 rounded-lg bg-slate-950/70 backdrop-blur-md text-slate-200 text-[10px] font-medium border border-white/15 shadow">
+                                ${post.badgeBottom || 'Personal License'}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Area Konten & Deskripsi -->
+                    <div class="p-5 space-y-3 flex-1 flex flex-col justify-between">
+                        <div class="space-y-2.5">
+                            <!-- Baris Rating & Statistik Pembaca / Unduhan -->
+                            <div class="flex items-center space-x-3 text-xs">
+                                <div class="flex items-center font-bold text-amber-400">
+                                    <i class="fa-solid fa-star mr-1.5 text-xs"></i>
+                                    <span>${post.rating || '4.9 (218)'}</span>
+                                </div>
+                                <div class="flex items-center text-slate-400">
+                                    <i class="fa-solid fa-download mr-1.5 text-xs text-slate-500"></i>
+                                    <span>${post.reads || '940 Unduhan'}</span>
+                                </div>
+                            </div>
+
+                            <!-- Judul Warta / Buku -->
+                            <h4 class="text-base font-extrabold text-white leading-snug group-hover:text-amber-400 transition-colors line-clamp-2">
+                                ${post.title}
+                            </h4>
+
+                            <!-- Cuplikan / Ringkasan -->
+                            <p class="text-xs text-slate-400 leading-relaxed line-clamp-2">
+                                ${post.content}
+                            </p>
+                        </div>
+
+                        <!-- Baris Tagar (#Hashtags) -->
+                        <div class="pt-3 border-t border-slate-800/80 flex flex-wrap gap-1.5 items-center">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderHomePosts() {
+            const container = document.getElementById('homePostsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            appPosts.forEach(post => {
+                container.innerHTML += generateCardMarkup(post);
+            });
+        }
+
+        function togglePostFormModal() {
+            switchAdminSubTab('posts');
+            const formEl = document.getElementById('adminPostFormContainer');
+            if (formEl) {
+                formEl.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('postInputTitle')?.focus();
+            }
+        }
+
+        function handleHeroImageFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const dataUrl = evt.target.result;
+                    const inp = document.getElementById('layoutHeroImage');
+                    if (inp) inp.value = dataUrl;
+                    const img = document.getElementById('heroTalentImage');
+                    if (img) img.src = dataUrl;
+                    appLayout.heroImageUrl = dataUrl;
+                    showToast('success', 'Foto Banner Dimuat', 'Foto utama hero banner berhasil diperbarui!');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleSavePost() {
+            const editId = document.getElementById('postFormEditId')?.value || '';
+            const title = document.getElementById('postInputTitle')?.value?.trim() || '';
+            const category = document.getElementById('postInputCategory')?.value || 'E-BOOK & PANDUAN';
+            const badgeRight = document.getElementById('postInputBadgeRight')?.value?.trim() || 'PANDUAN RESMI';
+            const badgeBottom = document.getElementById('postInputBadgeBottom')?.value?.trim() || 'Sanad Shahih';
+            const rating = document.getElementById('postInputRating')?.value?.trim() || '4.9 (218)';
+            const reads = document.getElementById('postInputReads')?.value?.trim() || '940 Dibaca';
+            const content = document.getElementById('postInputContent')?.value?.trim() || '';
+            const imageUrl = document.getElementById('postInputImageUrl')?.value?.trim() || PRESET_THUMBNAILS[0].url;
+            const tagsStr = document.getElementById('postInputTags')?.value?.trim() || '#Faraidh, #Mawaris';
+            const tags = tagsStr.split(',').map(t => t.trim()).filter(t => t.length > 0);
+
+            if (!title || !content) {
+                showToast('error', 'Data Belum Lengkap', 'Judul dan isi uraian warta wajib diisi.');
+                return;
+            }
+
+            if (editId) {
+                const p = appPosts.find(item => item.id === editId);
+                if (p) {
+                    p.title = title;
+                    p.category = category;
+                    p.badgeRight = badgeRight;
+                    p.badgeBottom = badgeBottom;
+                    p.rating = rating;
+                    p.reads = reads;
+                    p.content = content;
+                    p.imageUrl = imageUrl;
+                    p.tags = tags;
+                }
+                showToast('success', 'Warta Diperbarui', 'Postingan telah diperbarui dan disimpan secara permanen.');
+            } else {
+                const newPost = {
+                    id: 'p' + Date.now(),
+                    title,
+                    category,
+                    date: '07 September 2026',
+                    author: currentUser ? `${currentUser.displayName} (Pembina)` : 'Ghufron (Pembina Zawaris)',
+                    content,
+                    imageUrl,
+                    badgeRight,
+                    badgeBottom,
+                    rating,
+                    reads,
+                    tags
+                };
+                appPosts.unshift(newPost);
+                showToast('success', 'Warta Diterbitkan', 'Postingan baru berhasil ditayangkan dan disimpan permanen!');
+            }
+
+            saveAllToStorage();
+            resetPostForm();
+            renderAdminPostsList();
+        }
+
+        /* =================================================================
+           1.4. RENDERING & MANAGING 3 QUICK ACTION CARDS (DENGAN THUMBNAIL)
+           ================================================================= */
+        function renderHomeQuickCards() {
+            const container = document.getElementById('homeQuickCardsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            appQuickCards.forEach((card, idx) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'bg-white rounded-3xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1';
+                
+                const adminEditBadge = currentUser ? `
+                    <button onclick="switchTab('admin'); switchAdminSubTab('cards'); scrollToQuickCardEdit(${idx});" title="Edit Kartu Fitur Ini" class="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-xl bg-amber-400 text-emerald-950 font-bold text-[10px] shadow-md hover:bg-amber-300 flex items-center space-x-1">
+                        <i class="fa-solid fa-pen"></i>
+                        <span>Edit Box</span>
+                    </button>
+                ` : '';
+
+                cardEl.innerHTML = `
+                    <div class="relative w-full aspect-[16/10] overflow-hidden bg-slate-100">
+                        <img src="${card.imageUrl || PRESET_THUMBNAILS[0].url}" alt="${card.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                        
+                        <!-- Badge Atas -->
+                        <div class="absolute top-3 left-3">
+                            <span class="px-3 py-1 rounded-xl bg-slate-900/90 backdrop-blur-md text-amber-300 text-[10px] font-black uppercase tracking-wider border border-white/10 shadow">
+                                ${card.badge || 'LAYANAN UTAMA'}
+                            </span>
+                        </div>
+                        ${adminEditBadge}
+
+                        <!-- Judul di atas Thumbnail -->
+                        <div class="absolute bottom-3 left-4 right-4">
+                            <h4 class="text-base font-extrabold text-white leading-snug drop-shadow-md group-hover:text-amber-300 transition-colors">
+                                ${card.title}
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <p class="text-slate-600 text-xs leading-relaxed">
+                            ${card.description}
+                        </p>
+                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                            <button onclick="switchTab('${card.targetTab}')" class="text-${card.accentColor || 'emerald'}-700 font-extrabold text-xs flex items-center space-x-1.5 group-hover:translate-x-1 transition-transform">
+                                <span>${card.buttonText || 'Buka Layanan'}</span>
+                                <i class="fa-solid fa-arrow-right text-[11px]"></i>
+                            </button>
+                            <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Zawaris Core</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(cardEl);
+            });
+        }
+
+        function renderAdminQuickCardsManager() {
+            const container = document.getElementById('adminQuickCardsList');
+            if (!container) return;
+            container.innerHTML = '';
+
+            appQuickCards.forEach((card, idx) => {
+                const box = document.createElement('div');
+                box.id = `adminCardBox_${idx}`;
+                box.className = 'p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4 flex flex-col justify-between';
+                box.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between border-b pb-2">
+                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[11px]">Box Fitur #${idx + 1}</span>
+                            <span class="text-[10px] text-slate-400">Target: tab-${card.targetTab}</span>
+                        </div>
+
+                        <!-- Thumbnail Preview -->
+                        <div class="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-slate-200 bg-slate-200">
+                            <img id="cardThumbPreview_${idx}" src="${card.imageUrl || PRESET_THUMBNAILS[0].url}" alt="Preview" class="w-full h-full object-cover">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Judul Box</label>
+                            <input type="text" id="cardInputTitle_${idx}" value="${card.title}" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Lencana (Badge Atas)</label>
+                            <input type="text" id="cardInputBadge_${idx}" value="${card.badge || ''}" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Deskripsi Uraian</label>
+                            <textarea id="cardInputDesc_${idx}" rows="3" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs leading-relaxed">${card.description}</textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">URL Gambar Thumbnail</label>
+                            <input type="text" id="cardInputImg_${idx}" value="${card.imageUrl}" oninput="updateCardThumbPreview(${idx})" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Unggah Gambar Sendiri (File)</label>
+                            <input type="file" accept="image/*" onchange="handleQuickCardImageUpload(event, ${idx})" class="text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Pilih dari Preset Siap Pakai:</label>
+                            <div class="grid grid-cols-3 gap-1.5">
+                                ${PRESET_THUMBNAILS.map(preset => `
+                                    <button type="button" onclick="setQuickCardPreset(${idx}, '${preset.url}')" class="rounded-lg overflow-hidden border border-slate-200 hover:border-emerald-500 aspect-[16/10] relative group">
+                                        <img src="${preset.url}" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/40 hover:bg-black/10 flex items-end p-0.5">
+                                            <span class="text-[8px] font-bold text-white truncate drop-shadow">${preset.name}</span>
+                                        </div>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="saveSingleQuickCard(${idx})" class="w-full mt-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow transition flex items-center justify-center space-x-1.5">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Simpan Box #${idx + 1}</span>
+                    </button>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function updateCardThumbPreview(idx) {
+            const val = document.getElementById(`cardInputImg_${idx}`)?.value;
+            const img = document.getElementById(`cardThumbPreview_${idx}`);
+            if (img && val) img.src = val;
+        }
+
+        function setQuickCardPreset(idx, url) {
+            const input = document.getElementById(`cardInputImg_${idx}`);
+            if (input) input.value = url;
+            updateCardThumbPreview(idx);
+            showToast('info', 'Preset Dipilih', `Thumbnail untuk Box #${idx + 1} berhasil diperbarui.`);
+        }
+
+        function handleQuickCardImageUpload(e, idx) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const dataUrl = evt.target.result;
+                    const input = document.getElementById(`cardInputImg_${idx}`);
+                    if (input) input.value = dataUrl;
+                    updateCardThumbPreview(idx);
+                    showToast('success', 'Foto Terunggah', `Foto lokal berhasil dimuat untuk Box #${idx + 1}.`);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveSingleQuickCard(idx) {
+            if (!appQuickCards[idx]) return;
+            const title = document.getElementById(`cardInputTitle_${idx}`)?.value.trim();
+            const badge = document.getElementById(`cardInputBadge_${idx}`)?.value.trim();
+            const desc = document.getElementById(`cardInputDesc_${idx}`)?.value.trim();
+            const img = document.getElementById(`cardInputImg_${idx}`)?.value.trim();
+
+            if (title) appQuickCards[idx].title = title;
+            if (badge) appQuickCards[idx].badge = badge;
+            if (desc) appQuickCards[idx].description = desc;
+            if (img) appQuickCards[idx].imageUrl = img;
+
+            saveAllToStorage();
+            renderHomeQuickCards();
+            showToast('success', 'Box Disimpan', `Pengaturan untuk Box #${idx + 1} ("${appQuickCards[idx].title}") berhasil disimpan!`);
+        }
+
+        function saveAllQuickCards() {
+            appQuickCards.forEach((card, idx) => {
+                const title = document.getElementById(`cardInputTitle_${idx}`)?.value.trim();
+                const badge = document.getElementById(`cardInputBadge_${idx}`)?.value.trim();
+                const desc = document.getElementById(`cardInputDesc_${idx}`)?.value.trim();
+                const img = document.getElementById(`cardInputImg_${idx}`)?.value.trim();
+
+                if (title) card.title = title;
+                if (badge) card.badge = badge;
+                if (desc) card.description = desc;
+                if (img) card.imageUrl = img;
+            });
+            saveAllToStorage();
+            renderHomeQuickCards();
+            showToast('success', 'Seluruh Box Disimpan', 'Seluruh 3 Box Fitur Beranda berhasil diperbarui dan aktif.');
+        }
+
+        function scrollToQuickCardEdit(idx) {
+            setTimeout(() => {
+                const el = document.getElementById(`adminCardBox_${idx}`);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 200);
+        }
+
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const colorClass = type === 'error' ? 'bg-rose-600 text-white' : type === 'info' ? 'bg-teal-700 text-white' : 'bg-emerald-600 text-white';
+            const icon = type === 'error' ? 'fa-circle-xmark' : type === 'info' ? 'fa-circle-info' : 'fa-circle-check';
+            toast.className = `p-4 rounded-2xl shadow-xl flex items-start space-x-3 pointer-events-auto transform transition-all duration-300 translate-y-2 opacity-0 max-w-sm ${colorClass}`;
+            toast.innerHTML = `
+                <i class="fa-solid ${icon} text-lg mt-0.5"></i>
+                <div class="flex-1">
+                    <h5 class="font-extrabold text-xs leading-tight">${title}</h5>
+                    <p class="text-[11px] opacity-90 mt-0.5">${message}</p>
+                </div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function formatRupiah(num) {
+            return 'Rp ' + Math.round(num || 0).toLocaleString('id-ID');
         }
 
         function syncPrices() {
-            const g = parseFloat(document.getElementById('globalGoldPrice').value) || 1450000;
-            currentGoldPrice = g;
-            const nishabMaal = currentGoldPrice * 85;
-            document.getElementById('zakatNishabDisplay').innerText = formatIDR(nishabMaal);
-            recalculateCurrentZakat();
+            const input = document.getElementById('globalGoldPrice');
+            if (input) {
+                const val = parseFloat(input.value) || 1450000;
+                currentGoldPrice = val;
+            }
+            const nishabMaal = 85 * currentGoldPrice;
+            const nishabDisplay = document.getElementById('zakatNishabDisplay');
+            if (nishabDisplay) nishabDisplay.innerText = formatRupiah(nishabMaal);
+            recalcCurrentZakat();
         }
 
-        /* =================================================================
-           2. MATHEMATICAL HELPERS (KPK & FPB)
-           ================================================================= */
+        function applyLayoutToUI() {
+            const badgeEl = document.getElementById('heroBadgeText');
+            if (badgeEl && appLayout.heroBadge) badgeEl.innerText = appLayout.heroBadge;
+
+            const titleEl = document.getElementById('heroTitleText');
+            if (titleEl && appLayout.heroTitle) titleEl.innerHTML = appLayout.heroTitle;
+
+            const subEl = document.getElementById('heroSubtitleText');
+            if (subEl && appLayout.heroSubtitle) subEl.innerText = appLayout.heroSubtitle;
+
+            const imgEl = document.getElementById('heroTalentImage');
+            if (imgEl && appLayout.heroImageUrl) imgEl.src = appLayout.heroImageUrl;
+
+            const bannerText = document.getElementById('announcementBannerText');
+            if (bannerText && appLayout.announcementText) bannerText.innerText = appLayout.announcementText;
+
+            const bannerEl = document.getElementById('adminAnnouncementBanner');
+            if (bannerEl) {
+                if (appLayout.showAnnouncement === false || appLayout.showAnnouncement === 'false') {
+                    bannerEl.classList.add('hidden');
+                } else {
+                    bannerEl.classList.remove('hidden');
+                }
+            }
+
+            const footerEl = document.getElementById('footerCopyrightText');
+            if (footerEl && appLayout.footerNote) footerEl.innerText = appLayout.footerNote;
+        }
+
+        function loadLayoutFormValues() {
+            if (document.getElementById('layoutHeroBadge')) document.getElementById('layoutHeroBadge').value = appLayout.heroBadge || '';
+            if (document.getElementById('layoutHeroTitle')) document.getElementById('layoutHeroTitle').value = appLayout.heroTitle || '';
+            if (document.getElementById('layoutHeroSubtitle')) document.getElementById('layoutHeroSubtitle').value = appLayout.heroSubtitle || '';
+            if (document.getElementById('layoutHeroImage')) document.getElementById('layoutHeroImage').value = appLayout.heroImageUrl || '';
+            if (document.getElementById('layoutAnnouncement')) document.getElementById('layoutAnnouncement').value = appLayout.announcementText || '';
+            if (document.getElementById('layoutFooterNote')) document.getElementById('layoutFooterNote').value = appLayout.footerNote || '';
+            if (document.getElementById('layoutToggleAnnouncement')) document.getElementById('layoutToggleAnnouncement').value = String(appLayout.showAnnouncement !== false);
+            applyLayoutToUI();
+        }
+
+        function saveLayoutSettings() {
+            appLayout.heroBadge = document.getElementById('layoutHeroBadge')?.value.trim() || appLayout.heroBadge;
+            appLayout.heroTitle = document.getElementById('layoutHeroTitle')?.value.trim() || appLayout.heroTitle;
+            appLayout.heroSubtitle = document.getElementById('layoutHeroSubtitle')?.value.trim() || appLayout.heroSubtitle;
+            appLayout.heroImageUrl = document.getElementById('layoutHeroImage')?.value.trim() || appLayout.heroImageUrl;
+            appLayout.announcementText = document.getElementById('layoutAnnouncement')?.value.trim() || appLayout.announcementText;
+            appLayout.footerNote = document.getElementById('layoutFooterNote')?.value.trim() || appLayout.footerNote;
+            appLayout.showAnnouncement = document.getElementById('layoutToggleAnnouncement')?.value === 'true';
+
+            applyLayoutToUI();
+            saveAllToStorage();
+            showToast('success', 'Tata Letak Diperbarui', 'Pengaturan tata letak dan teks aplikasi berhasil diterapkan.');
+        }
+
+        function editPost(id) {
+            const post = appPosts.find(p => p.id === id);
+            if (!post) return;
+            document.getElementById('postFormEditId').value = post.id;
+            document.getElementById('postInputTitle').value = post.title;
+            document.getElementById('postInputCategory').value = post.category || 'E-BOOK & PANDUAN';
+            document.getElementById('postInputBadgeRight').value = post.badgeRight || '';
+            document.getElementById('postInputBadgeBottom').value = post.badgeBottom || '';
+            document.getElementById('postInputRating').value = post.rating || '';
+            document.getElementById('postInputReads').value = post.reads || '';
+            document.getElementById('postInputContent').value = post.content || '';
+            document.getElementById('postInputImageUrl').value = post.imageUrl || '';
+            document.getElementById('postInputTags').value = (post.tags || []).join(', ');
+            document.getElementById('postFormTitle').innerHTML = '<i class="fa-solid fa-pen text-amber-600 mr-1.5"></i> Edit Warta Syariah';
+            updateLivePostPreview();
+            switchAdminSubTab('posts');
+            const formEl = document.getElementById('adminPostFormContainer');
+            if (formEl) formEl.scrollIntoView({ behavior: 'smooth' });
+            showToast('info', 'Edit Warta', `Memuat warta: "${post.title}" ke editor.`);
+        }
+
+        function resetPostForm() {
+            document.getElementById('postFormEditId').value = '';
+            document.getElementById('postInputTitle').value = '';
+            document.getElementById('postInputCategory').value = 'E-BOOK & PANDUAN';
+            document.getElementById('postInputBadgeRight').value = 'PANDUAN RESMI';
+            document.getElementById('postInputBadgeBottom').value = 'Personal License';
+            document.getElementById('postInputRating').value = '4.9 (218)';
+            document.getElementById('postInputReads').value = '940 Unduhan';
+            document.getElementById('postInputContent').value = '';
+            document.getElementById('postInputImageUrl').value = PRESET_THUMBNAILS[0].url;
+            document.getElementById('postInputTags').value = '#Faraidh, #HartaBersama, #KHI';
+            document.getElementById('postFormTitle').innerHTML = '<i class="fa-solid fa-pen-nib text-emerald-600 mr-1.5"></i> Formulir Publikasi Warta Syariah';
+            updateLivePostPreview();
+        }
+
         const gcd = (a, b) => (!b ? a : gcd(b, a % b));
         const lcm = (a, b) => (a * b) / gcd(a, b);
 
-        /* =================================================================
-           3. FARAIDH CALCULATION ENGINE
-           ================================================================= */
         function handleDeceasedGenderChange() {
-            const g = document.getElementById('fw_deceasedGender').value;
+            const gender = document.getElementById('fw_deceasedGender').value;
             const spouseLabel = document.getElementById('spouseLabel');
             const spouseInput = document.getElementById('hw_spouseCount');
-            if (g === 'male') {
-                spouseLabel.innerText = 'Jumlah Istri Hidup:';
+            if (gender === 'male') {
+                spouseLabel.innerText = "Jumlah Istri Hidup (1 - 4):";
                 spouseInput.max = 4;
-                if (parseInt(spouseInput.value) > 4) spouseInput.value = 1;
+                if (parseInt(spouseInput.value) > 4) spouseInput.value = 4;
             } else {
-                spouseLabel.innerText = 'Suami Hidup (Ada/Tidak):';
+                spouseLabel.innerText = "Suami Hidup (0 atau 1):";
                 spouseInput.max = 1;
-                spouseInput.value = 1;
+                if (parseInt(spouseInput.value) > 1) spouseInput.value = 1;
             }
+            calculateNetTirkahPreview();
         }
 
         function calculateNetTirkahPreview() {
             const gross = parseFloat(document.getElementById('fw_grossTirkah').value) || 0;
             const hasJoint = document.getElementById('fw_hasJointProperty').checked;
-            const jointDed = hasJoint ? (gross * 0.5) : 0;
-            const afterJoint = gross - jointDed;
-
             const funeral = parseFloat(document.getElementById('fw_funeralCost').value) || 0;
             const debt = parseFloat(document.getElementById('fw_debtCost').value) || 0;
-            const afterDebts = Math.max(0, afterJoint - funeral - debt);
+            const willInput = parseFloat(document.getElementById('fw_willCost').value) || 0;
 
-            // Wasiat maksimal 1/3 dari sisa setelah utang
-            const maxWill = afterDebts / 3;
-            let will = parseFloat(document.getElementById('fw_willCost').value) || 0;
-            const warningEl = document.getElementById('willWarning');
-
-            if (will > maxWill) {
-                warningEl.classList.remove('hidden');
-                will = maxWill;
-            } else {
-                warningEl.classList.add('hidden');
+            let afterJoint = gross;
+            if (hasJoint) {
+                afterJoint = gross * 0.5; // Hak 50% gono-gini pasangan
             }
 
-            const netTirkah = Math.max(0, afterDebts - will);
-            document.getElementById('fw_netTirkahDisplay').innerText = formatIDR(netTirkah);
-            return { gross, jointDed, funeral, debt, will, netTirkah };
+            const afterFuneral = Math.max(0, afterJoint - funeral);
+            const afterDebt = Math.max(0, afterFuneral - debt);
+            const maxWill = afterDebt / 3;
+
+            const willWarning = document.getElementById('willWarning');
+            if (willInput > maxWill && willInput > 0) {
+                if (willWarning) willWarning.classList.remove('hidden');
+            } else {
+                if (willWarning) willWarning.classList.add('hidden');
+            }
+
+            const appliedWill = Math.min(willInput, maxWill);
+            const netTirkah = Math.max(0, afterDebt - appliedWill);
+
+            const display = document.getElementById('fw_netTirkahDisplay');
+            if (display) display.innerText = formatRupiah(netTirkah);
+            return netTirkah;
         }
 
         function runFaraidhCalculation() {
-            const tirkahData = calculateNetTirkahPreview();
-            const netTirkah = tirkahData.netTirkah;
-
-            const deceasedGender = document.getElementById('fw_deceasedGender').value;
+            const netTirkah = calculateNetTirkahPreview();
+            const gender = document.getElementById('fw_deceasedGender').value;
             const spouseCount = parseInt(document.getElementById('hw_spouseCount').value) || 0;
             const hasFather = document.getElementById('hw_father').checked;
             const hasMother = document.getElementById('hw_mother').checked;
-            const hasKakek = document.getElementById('hw_paternalGrandfather').checked;
-            const hasNenek = document.getElementById('hw_grandmother').checked;
+            const hasGrandfather = document.getElementById('hw_paternalGrandfather').checked;
+            const hasGrandmother = document.getElementById('hw_grandmother').checked;
 
             const sonCount = parseInt(document.getElementById('hw_son').value) || 0;
             const daughterCount = parseInt(document.getElementById('hw_daughter').value) || 0;
@@ -1170,387 +2699,351 @@
 
             const fullBroCount = parseInt(document.getElementById('hw_fullBrother').value) || 0;
             const fullSisCount = parseInt(document.getElementById('hw_fullSister').value) || 0;
-            const maternalSibCount = parseInt(document.getElementById('hw_maternalSibling').value) || 0;
-            const consBroCount = parseInt(document.getElementById('hw_consanguineBrother').value) || 0;
-            const consSisCount = parseInt(document.getElementById('hw_consanguineSister').value) || 0;
+            const matSibCount = parseInt(document.getElementById('hw_maternalSibling').value) || 0;
+            const conBroCount = parseInt(document.getElementById('hw_consanguineBrother').value) || 0;
+            const conSisCount = parseInt(document.getElementById('hw_consanguineSister').value) || 0;
             const uncleCount = parseInt(document.getElementById('hw_paternalUncle').value) || 0;
 
-            const hasChildren = sonCount > 0 || daughterCount > 0;
-            const hasGrandchildren = grandsonCount > 0 || granddaughterCount > 0;
+            const hasChildren = (sonCount + daughterCount) > 0;
+            const hasGrandchildren = (grandsonCount + granddaughterCount) > 0;
             const hasFuru = hasChildren || hasGrandchildren;
+            const totalSiblings = fullBroCount + fullSisCount + matSibCount + conBroCount + conSisCount;
 
-            const totalSiblings = fullBroCount + fullSisCount + maternalSibCount + consBroCount + consSisCount;
-            const mahjubReasons = [];
+            let mahjubList = [];
+            let shares = []; // { name, num, den, count }
+            let caseType = "PEMBAGIAN NORMAL";
 
-            // Evaluasi Hijab Hirman
-            let effectiveGrandson = grandsonCount;
-            let effectiveGranddaughter = granddaughterCount;
-            if (sonCount > 0) {
-                if (grandsonCount > 0 || granddaughterCount > 0) {
-                    mahjubReasons.push("Cucu terhijab penuh (gugur hak) oleh keberadaan Anak Laki-laki.");
-                }
-                effectiveGrandson = 0;
-                effectiveGranddaughter = 0;
+            // Hijab Hirman Evaluation
+            if (hasChildren || sonCount > 0) {
+                if (grandsonCount > 0 || granddaughterCount > 0) mahjubList.push("Cucu (terhijab oleh Anak Kandung)");
+                if (totalSiblings > 0) mahjubList.push("Seluruh Saudara/i (terhijab oleh Keturunan Laki-laki/Anak)");
+                if (uncleCount > 0) mahjubList.push("Paman Kandung (terhijab oleh Keturunan)");
+            }
+            if (hasFather) {
+                if (hasGrandfather) mahjubList.push("Kakek (terhijab oleh Ayah yang masih hidup)");
+                if (totalSiblings > 0 && !hasChildren) mahjubList.push("Seluruh Saudara/i (terhijab oleh Ayah)");
+                if (uncleCount > 0) mahjubList.push("Paman Kandung (terhijab oleh Ayah)");
+            }
+            if (hasMother && hasGrandmother) {
+                mahjubList.push("Nenek Sahihah (terhijab oleh Ibu yang masih hidup)");
             }
 
-            let effectiveKakek = hasKakek;
-            if (hasFather && hasKakek) {
-                mahjubReasons.push("Kakek terhijab penuh oleh keberadaan Ayah kandung.");
-                effectiveKakek = false;
-            }
-
-            let effectiveNenek = hasNenek;
-            if (hasMother && hasNenek) {
-                mahjubReasons.push("Nenek terhijab penuh oleh keberadaan Ibu kandung.");
-                effectiveNenek = false;
-            }
-
-            let effectiveHawasyi = true;
-            if (sonCount > 0 || hasFather) {
-                if (totalSiblings > 0 || uncleCount > 0) {
-                    mahjubReasons.push("Seluruh Saudara/i dan Paman terhijab penuh oleh adanya Anak Laki-laki atau Ayah.");
-                }
-                effectiveHawasyi = false;
-            }
-
-            // 1. CEK KASUS GHARAWAIN: [Suami/Istri + Ibu + Ayah] tanpa anak dan tanpa jamak saudara
+            // Cek Kasus Khusus: Gharawain / Umariyatain
+            // Kondisi: Suami/Istri + Ibu + Ayah (tanpa keturunan & saudara < 2)
             const isGharawain = spouseCount > 0 && hasMother && hasFather && !hasFuru && totalSiblings < 2;
 
             if (isGharawain) {
-                const spouseShareFrac = deceasedGender === 'female' ? 0.5 : 0.25;
-                const spouseShareStr = deceasedGender === 'female' ? '1/2' : '1/4';
-                const spouseName = deceasedGender === 'female' ? 'Suami' : `Istri (${spouseCount} orang)`;
-                const spouseNominal = netTirkah * spouseShareFrac;
+                caseType = "KASUS GHARAWAIN (UMARIYATAIN)";
+                const isHusband = gender === 'female';
+                const spouseShareFraction = isHusband ? 0.5 : 0.25;
+                const spouseName = isHusband ? "Suami" : `Istri (${spouseCount})`;
+                const spouseVal = netTirkah * spouseShareFraction;
+                const remainder = netTirkah - spouseVal;
+                const motherVal = remainder * (1 / 3); // 1/3 dari SISA
+                const fatherVal = remainder * (2 / 3); // Ashabah sisa
 
-                const sisaAfterSpouse = netTirkah - spouseNominal;
-                const motherNominal = sisaAfterSpouse * (1 / 3); // 1/3 dari SISA
-                const fatherNominal = sisaAfterSpouse * (2 / 3); // Ashabah sisa
-
-                const finalShares = [
-                    { name: spouseName, shareStr: spouseShareStr, nominal: spouseNominal, color: '#059669' },
-                    { name: 'Ibu', shareStr: '1/3 Sisa (Gharawain)', nominal: motherNominal, color: '#f59e0b' },
-                    { name: 'Ayah', shareStr: 'Ashabah (2/3 Sisa)', nominal: fatherNominal, color: '#0d9488' },
+                const items = [
+                    { name: spouseName, shareStr: isHusband ? "1/2" : "1/4", fraction: spouseShareFraction, amount: spouseVal },
+                    { name: "Ibu", shareStr: "1/3 dari Sisa", fraction: (1 - spouseShareFraction) * (1 / 3), amount: motherVal },
+                    { name: "Ayah", shareStr: "Ashabah (2/3 Sisa)", fraction: (1 - spouseShareFraction) * (2 / 3), amount: fatherVal }
                 ];
 
-                renderFaraidhResults({
-                    caseName: "KASUS GHARAWAIN (UMARIYATAIN)",
-                    caseBadgeClass: "text-indigo-800",
-                    asalMasalahAwal: deceasedGender === 'female' ? 6 : 4,
-                    asalMasalahAkhir: deceasedGender === 'female' ? 6 : 4,
-                    shares: finalShares,
-                    mahjubList: mahjubReasons,
-                    tirkahData
-                });
+                lastFaraidhResult = { caseType, am: isHusband ? 6 : 4, netTirkah, items, mahjubList };
+                renderFaraidhResults(lastFaraidhResult);
                 return;
             }
 
-            // 2. KALKULASI FURUDH STANDAR
-            let furudh = []; // { name, count, num, den, isSpouse, color }
-
-            // Suami / Istri
+            // Penentuan Ashabul Furudh Standar
             if (spouseCount > 0) {
-                if (deceasedGender === 'female') {
-                    // Suami
-                    const porsi = hasFuru ? { num: 1, den: 4 } : { num: 1, den: 2 };
-                    furudh.push({ name: 'Suami', count: 1, ...porsi, isSpouse: true, color: '#059669' });
-                } else {
+                if (gender === 'male') {
                     // Istri
-                    const porsi = hasFuru ? { num: 1, den: 8 } : { num: 1, den: 4 };
-                    furudh.push({ name: `Istri (${spouseCount})`, count: spouseCount, ...porsi, isSpouse: true, color: '#059669' });
+                    shares.push({ name: `Istri (${spouseCount})`, num: 1, den: hasFuru ? 8 : 4, count: spouseCount });
+                } else {
+                    // Suami
+                    shares.push({ name: "Suami", num: 1, den: hasFuru ? 4 : 2, count: 1 });
                 }
             }
 
             // Ibu
             if (hasMother) {
-                const porsi = (hasFuru || totalSiblings >= 2) ? { num: 1, den: 6 } : { num: 1, den: 3 };
-                furudh.push({ name: 'Ibu', count: 1, ...porsi, isSpouse: false, color: '#f59e0b' });
+                const getOneSixth = hasFuru || totalSiblings >= 2;
+                shares.push({ name: "Ibu", num: 1, den: getOneSixth ? 6 : 3, count: 1 });
             }
 
-            // Ayah (Jika ada anak, ayah furudh 1/6)
-            if (hasFather && hasFuru) {
-                furudh.push({ name: 'Ayah', count: 1, num: 1, den: 6, isSpouse: false, color: '#0d9488' });
+            // Ayah
+            let fatherIsAshabah = false;
+            if (hasFather) {
+                if (sonCount > 0 || grandsonCount > 0) {
+                    shares.push({ name: "Ayah", num: 1, den: 6, count: 1 });
+                } else if (daughterCount > 0 || granddaughterCount > 0) {
+                    shares.push({ name: "Ayah (Fardhu 1/6 + Sisa)", num: 1, den: 6, count: 1 });
+                    fatherIsAshabah = true;
+                } else {
+                    fatherIsAshabah = true;
+                }
             }
 
-            // Nenek Sahihah (jika tidak terhijab)
-            if (effectiveNenek) {
-                furudh.push({ name: 'Nenek', count: 1, num: 1, den: 6, isSpouse: false, color: '#b45309' });
+            // Kakek (jika ayah tidak ada)
+            if (!hasFather && hasGrandfather) {
+                if (sonCount > 0) shares.push({ name: "Kakek", num: 1, den: 6, count: 1 });
+                else fatherIsAshabah = true;
             }
 
-            // Kakek (jika tidak terhijab dan ada furu)
-            if (effectiveKakek && hasFuru) {
-                furudh.push({ name: 'Kakek', count: 1, num: 1, den: 6, isSpouse: false, color: '#065f46' });
+            // Nenek (jika ibu tidak ada)
+            if (!hasMother && hasGrandmother) {
+                shares.push({ name: "Nenek", num: 1, den: 6, count: 1 });
             }
 
             // Anak Perempuan (jika tidak ada anak laki-laki)
             if (sonCount === 0 && daughterCount > 0) {
                 if (daughterCount === 1) {
-                    furudh.push({ name: '1 Anak Perempuan', count: 1, num: 1, den: 2, isSpouse: false, color: '#ec4899' });
+                    shares.push({ name: "Anak Perempuan (Tunggal)", num: 1, den: 2, count: 1 });
                 } else {
-                    furudh.push({ name: `${daughterCount} Anak Perempuan`, count: daughterCount, num: 2, den: 3, isSpouse: false, color: '#ec4899' });
+                    shares.push({ name: `Anak Perempuan (${daughterCount})`, num: 2, den: 3, count: daughterCount });
                 }
             }
 
-            // Saudara seibu (jika tidak terhijab furu/ayah)
-            if (effectiveHawasyi && maternalSibCount > 0 && !hasFather && !hasFuru) {
-                if (maternalSibCount === 1) {
-                    furudh.push({ name: '1 Saudara Seibu', count: 1, num: 1, den: 6, isSpouse: false, color: '#8b5cf6' });
+            // Saudara seibu (jika kalalah: tidak ada furu' dan tidak ada ayah)
+            if (!hasFuru && !hasFather && matSibCount > 0) {
+                if (matSibCount === 1) {
+                    shares.push({ name: "Saudara Seibu (1)", num: 1, den: 6, count: 1 });
                 } else {
-                    furudh.push({ name: `${maternalSibCount} Saudara Seibu`, count: maternalSibCount, num: 1, den: 3, isSpouse: false, color: '#8b5cf6' });
+                    shares.push({ name: `Saudara Seibu (${matSibCount})`, num: 1, den: 3, count: matSibCount });
                 }
             }
 
-            // Hitung Asal Masalah (KPK dari semua penyebut furudh)
-            let am = furudh.length > 0 ? furudh.reduce((acc, curr) => lcm(acc, curr.den), 1) : 1;
-            let totalSaham = furudh.reduce((acc, curr) => acc + (am / curr.den) * curr.num, 0);
+            // Hitung Asal Masalah (KPK dari penyebut)
+            let am = 1;
+            shares.forEach(s => {
+                am = lcm(am, s.den);
+            });
+            if (am === 1) am = 24;
 
-            let caseName = "PEMBAGIAN NORMAL";
-            let caseBadgeClass = "text-emerald-800";
-            let finalShares = [];
-            let finalAM = am;
+            let totalSaham = 0;
+            shares.forEach(s => {
+                s.saham = (am / s.den) * s.num;
+                totalSaham += s.saham;
+            });
 
-            const isAshabahActive = sonCount > 0 || (!hasChildren && hasFather);
+            let items = [];
+            const hasAshabah = (sonCount > 0) || fatherIsAshabah || (!hasFuru && !hasFather && fullBroCount > 0);
 
-            // EVALUASI KASUS: AUL vs RADD vs NORMAL
             if (totalSaham > am) {
-                // TERJADI AUL
-                caseName = "KASUS AL-'AUL (DEFISIT SAHAM)";
-                caseBadgeClass = "text-amber-800";
-                finalAM = totalSaham; // Asal masalah dinaikkan
-
-                furudh.forEach(f => {
-                    const saham = (am / f.den) * f.num;
-                    const nominal = (saham / finalAM) * netTirkah;
-                    finalShares.push({
-                        name: f.name,
-                        shareStr: `${saham}/${finalAM} (Aul)`,
-                        nominal: nominal,
-                        color: f.color
+                // KASUS AL-'AUL
+                caseType = "KASUS AL-'AUL (SAHAM MELEBIHI ASAL MASALAH)";
+                const finalAM = totalSaham;
+                shares.forEach(s => {
+                    const amount = (s.saham / finalAM) * netTirkah;
+                    items.push({
+                        name: s.name,
+                        shareStr: `${s.saham}/${finalAM} ('Aul dari ${am})`,
+                        fraction: s.saham / finalAM,
+                        amount: amount
                     });
                 });
-            } else if (totalSaham < am && !isAshabahActive) {
-                // TERJADI AR-RADD (Kelebihan Harta tanpa Ashabah)
-                caseName = "KASUS AR-RADD (PENGEMBALIAN SISA)";
-                caseBadgeClass = "text-teal-800";
-
-                // Pisahkan pasangan
-                const spouseItem = furudh.find(f => f.isSpouse);
-                const nonSpouseItems = furudh.filter(f => !f.isSpouse);
+                lastFaraidhResult = { caseType, am: finalAM, netTirkah, items, mahjubList };
+            } else if (totalSaham < am && !hasAshabah) {
+                // KASUS AR-RADD (Sisa harta dikembalikan tanpa Ashabah)
+                caseType = "KASUS AR-RADD (KELEBIHAN HARTA TANPA ASHABAH)";
+                // Suami/Istri dikunci sesuai fardhu asalnya menurut jumhur
+                const spouseItem = shares.find(s => s.name.includes("Istri") || s.name.includes("Suami"));
+                let spouseAmount = 0;
+                let remainderTirkah = netTirkah;
 
                 if (spouseItem) {
-                    const spouseNominal = (spouseItem.num / spouseItem.den) * netTirkah;
-                    finalShares.push({
+                    spouseAmount = (spouseItem.saham / am) * netTirkah;
+                    items.push({
                         name: spouseItem.name,
-                        shareStr: `${spouseItem.num}/${spouseItem.den} (Fardhu Sah)`,
-                        nominal: spouseNominal,
-                        color: spouseItem.color
+                        shareStr: `${spouseItem.num}/${spouseItem.den} (Fardhu Mutlak)`,
+                        fraction: spouseItem.saham / am,
+                        amount: spouseAmount
                     });
-                    const remainder = netTirkah - spouseNominal;
-                    const totalNonSpouseSaham = nonSpouseItems.reduce((acc, curr) => acc + (am / curr.den) * curr.num, 0);
-
-                    nonSpouseItems.forEach(ns => {
-                        const s = (am / ns.den) * ns.num;
-                        const nom = (s / totalNonSpouseSaham) * remainder;
-                        finalShares.push({
-                            name: ns.name,
-                            shareStr: `${s}/${totalNonSpouseSaham} (Radd)`,
-                            nominal: nom,
-                            color: ns.color
-                        });
-                    });
-                    finalAM = am;
-                } else {
-                    // Tanpa pasangan, AM langsung dikecilkan ke total saham
-                    finalAM = totalSaham;
-                    nonSpouseItems.forEach(ns => {
-                        const s = (am / ns.den) * ns.num;
-                        const nom = (s / finalAM) * netTirkah;
-                        finalShares.push({
-                            name: ns.name,
-                            shareStr: `${s}/${finalAM} (Radd)`,
-                            nominal: nom,
-                            color: ns.color
-                        });
-                    });
+                    remainderTirkah -= spouseAmount;
                 }
-            } else {
-                // NORMAL DENGAN ASHABAH
-                furudh.forEach(f => {
-                    const saham = (am / f.den) * f.num;
-                    const nominal = (saham / am) * netTirkah;
-                    finalShares.push({
-                        name: f.name,
-                        shareStr: `${f.num}/${f.den}`,
-                        nominal: nominal,
-                        color: f.color
+
+                const nonSpouseShares = shares.filter(s => s !== spouseItem);
+                const raddAM = nonSpouseShares.reduce((acc, curr) => acc + curr.saham, 0);
+
+                nonSpouseShares.forEach(s => {
+                    const amount = raddAM > 0 ? (s.saham / raddAM) * remainderTirkah : 0;
+                    items.push({
+                        name: s.name,
+                        shareStr: `${s.saham}/${raddAM} (Radd)`,
+                        fraction: amount / (netTirkah || 1),
+                        amount: amount
                     });
                 });
 
-                const allocated = finalShares.reduce((acc, curr) => acc + curr.nominal, 0);
-                const sisaTirkah = Math.max(0, netTirkah - allocated);
+                lastFaraidhResult = { caseType, am: raddAM || am, netTirkah, items, mahjubList };
+            } else {
+                // PEMBAGIAN NORMAL DENGAN ASHABAH
+                shares.forEach(s => {
+                    const amount = (s.saham / am) * netTirkah;
+                    items.push({
+                        name: s.name,
+                        shareStr: `${s.saham}/${am}`,
+                        fraction: s.saham / am,
+                        amount: amount
+                    });
+                });
 
-                if (sisaTirkah > 0) {
+                const allocatedAmount = items.reduce((sum, item) => sum + item.amount, 0);
+                const sisaHarta = Math.max(0, netTirkah - allocatedAmount);
+
+                if (sisaHarta > 0) {
                     if (sonCount > 0 && daughterCount > 0) {
-                        // Ashabah bi Ghairih (2 : 1)
+                        // Ashabah bil Ghair (2 : 1)
                         const totalUnits = (sonCount * 2) + daughterCount;
-                        const unitVal = sisaTirkah / totalUnits;
-                        finalShares.push({
-                            name: `${sonCount} Anak Laki-laki`,
-                            shareStr: 'Ashabah (2x Bagian Pr)',
-                            nominal: unitVal * 2 * sonCount,
-                            color: '#0284c7'
+                        const perUnit = sisaHarta / totalUnits;
+                        items.push({
+                            name: `Anak Laki-laki (${sonCount} org)`,
+                            shareStr: `Ashabah (2x porsi)`,
+                            fraction: (perUnit * 2 * sonCount) / (netTirkah || 1),
+                            amount: perUnit * 2 * sonCount
                         });
-                        finalShares.push({
-                            name: `${daughterCount} Anak Perempuan`,
-                            shareStr: 'Ashabah (1x Bagian)',
-                            nominal: unitVal * 1 * daughterCount,
-                            color: '#ec4899'
+                        items.push({
+                            name: `Anak Perempuan (${daughterCount} org)`,
+                            shareStr: `Ashabah (1x porsi)`,
+                            fraction: (perUnit * daughterCount) / (netTirkah || 1),
+                            amount: perUnit * daughterCount
                         });
                     } else if (sonCount > 0) {
-                        finalShares.push({
-                            name: `${sonCount} Anak Laki-laki`,
-                            shareStr: 'Ashabah bi Nafsih (Sisa)',
-                            nominal: sisaTirkah,
-                            color: '#0284c7'
+                        items.push({
+                            name: `Anak Laki-laki (${sonCount} org)`,
+                            shareStr: "Ashabah bi Nafsihi (Sisa)",
+                            fraction: sisaHarta / (netTirkah || 1),
+                            amount: sisaHarta
                         });
-                    } else if (hasFather && !hasChildren) {
-                        finalShares.push({
-                            name: 'Ayah',
-                            shareStr: 'Ashabah (Mengambil Sisa)',
-                            nominal: sisaTirkah,
-                            color: '#0d9488'
+                    } else if (hasFather) {
+                        items.push({
+                            name: "Ayah",
+                            shareStr: "Ashabah bi Nafsihi (Sisa)",
+                            fraction: sisaHarta / (netTirkah || 1),
+                            amount: sisaHarta
                         });
                     }
                 }
+
+                lastFaraidhResult = { caseType, am, netTirkah, items, mahjubList };
             }
 
-            renderFaraidhResults({
-                caseName,
-                caseBadgeClass,
-                asalMasalahAwal: am,
-                asalMasalahAkhir: finalAM,
-                shares: finalShares,
-                mahjubList: mahjubReasons,
-                tirkahData
-            });
+            renderFaraidhResults(lastFaraidhResult);
         }
 
-        function renderFaraidhResults(res) {
-            lastFaraidhResult = res;
+        function renderFaraidhResults(data) {
+            document.getElementById('res_caseBadge').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-1.5"></i> <span>${data.caseType}</span>`;
+            document.getElementById('res_amBadge').innerText = `Asal Masalah: ${data.am}`;
+            document.getElementById('res_totalNet').innerText = formatRupiah(data.netTirkah);
 
-            document.getElementById('res_caseBadge').innerHTML = `
-                <i class="fa-solid fa-scale-balanced mr-1.5"></i>
-                <span>${res.caseName}</span>
-            `;
-            document.getElementById('res_amBadge').innerText = `AM: ${res.asalMasalahAwal} ${res.asalMasalahAkhir !== res.asalMasalahAwal ? '→ ' + res.asalMasalahAkhir : ''}`;
-            document.getElementById('res_totalNet').innerText = formatIDR(res.tirkahData.netTirkah);
+            const perShareVal = data.netTirkah / (data.am || 1);
+            document.getElementById('res_perShare').innerText = formatRupiah(perShareVal);
 
-            const perSaham = res.tirkahData.netTirkah / (res.asalMasalahAkhir || 1);
-            document.getElementById('res_perShare').innerText = formatIDR(perSaham);
+            const listContainer = document.getElementById('res_distributionList');
+            listContainer.innerHTML = '';
 
-            // Render List Items
-            const listEl = document.getElementById('res_distributionList');
-            listEl.innerHTML = '';
-
-            res.shares.forEach((item, idx) => {
+            data.items.forEach(item => {
                 const row = document.createElement('div');
-                row.className = 'py-2 flex items-center justify-between text-xs';
+                row.className = 'py-2.5 flex items-center justify-between text-xs';
                 row.innerHTML = `
-                    <div class="flex items-center space-x-2">
-                        <span class="w-2.5 h-2.5 rounded-full" style="background-color: ${item.color || '#059669'}"></span>
-                        <div>
-                            <strong class="text-slate-800 block">${item.name}</strong>
-                            <span class="text-[11px] text-slate-400">Porsi Syar'i: ${item.shareStr}</span>
-                        </div>
+                    <div>
+                        <strong class="text-slate-800 block">${item.name}</strong>
+                        <span class="text-[11px] text-emerald-700 font-semibold">${item.shareStr}</span>
                     </div>
                     <div class="text-right">
-                        <strong class="text-emerald-800 text-sm font-extrabold block">${formatIDR(item.nominal)}</strong>
-                        <span class="text-[10px] text-slate-400">${((item.nominal / (res.tirkahData.netTirkah || 1)) * 100).toFixed(1)}%</span>
+                        <span class="font-extrabold text-slate-800 block">${formatRupiah(item.amount)}</span>
+                        <span class="text-[10px] text-slate-400 font-medium">${(item.fraction * 100).toFixed(1)}% porsi</span>
                     </div>
                 `;
-                listEl.appendChild(row);
+                listContainer.appendChild(row);
             });
 
-            // Mahjub Box
+            // Mahjub box
             const mahjubBox = document.getElementById('res_mahjubBox');
             const mahjubText = document.getElementById('res_mahjubText');
-            if (res.mahjubList && res.mahjubList.length > 0) {
+            if (data.mahjubList && data.mahjubList.length > 0) {
                 mahjubBox.classList.remove('hidden');
-                mahjubText.innerHTML = res.mahjubList.join('<br>');
+                mahjubText.innerText = data.mahjubList.join("; ");
             } else {
                 mahjubBox.classList.add('hidden');
             }
 
-            // Render Chart.js
-            renderFaraidhChart(res.shares);
-        }
-
-        function renderFaraidhChart(shares) {
-            const ctx = document.getElementById('faraidhChart').getContext('2d');
-            if (faraidhChartInstance) {
-                faraidhChartInstance.destroy();
-            }
-            faraidhChartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: shares.map(s => s.name),
-                    datasets: [{
-                        data: shares.map(s => s.nominal),
-                        backgroundColor: shares.map(s => s.color || '#059669'),
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
+            // Render Chart.js Donut
+            const ctx = document.getElementById('faraidhChart')?.getContext('2d');
+            if (ctx) {
+                if (faraidhChartInstance) faraidhChartInstance.destroy();
+                faraidhChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.items.map(i => i.name),
+                        datasets: [{
+                            data: data.items.map(i => Math.round(i.amount)),
+                            backgroundColor: [
+                                '#059669', '#d97706', '#0284c7', '#7c3aed',
+                                '#db2777', '#10b981', '#f59e0b', '#06b6d4'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
                     },
-                    cutout: '70%'
-                }
-            });
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
         }
 
-        function loadSampleCase(caseNo) {
-            if (caseNo === 1) {
-                // Kasus 'Aul (Istri, Ayah, Ibu, 2 Anak Pr - Makalah Hal 2: Harta 81jt)
-                document.getElementById('fw_grossTirkah').value = 81000000;
+        function loadSampleCase(caseId) {
+            if (caseId === 1) {
+                // Kasus 'Aul (Buku hal. 2: Istri, Ayah, Ibu, 2 Anak Pr, Harta: 81jt)
                 document.getElementById('fw_deceasedGender').value = 'male';
                 handleDeceasedGenderChange();
+                document.getElementById('fw_grossTirkah').value = 81000000;
+                document.getElementById('fw_hasJointProperty').checked = false;
+                document.getElementById('fw_funeralCost').value = 0;
+                document.getElementById('fw_debtCost').value = 0;
+                document.getElementById('fw_willCost').value = 0;
                 document.getElementById('hw_spouseCount').value = 1;
                 document.getElementById('hw_father').checked = true;
                 document.getElementById('hw_mother').checked = true;
                 document.getElementById('hw_son').value = 0;
                 document.getElementById('hw_daughter').value = 2;
+                showToast('info', "Kasus 'Aul Dimuat", "Kasus Makalah Fikih: Istri, Ayah, Ibu, 2 Anak Pr.");
+            } else if (caseId === 2) {
+                // Kasus Gharawain (Suami, Ibu, Ayah, Harta: 30jt)
+                document.getElementById('fw_deceasedGender').value = 'female';
+                handleDeceasedGenderChange();
+                document.getElementById('fw_grossTirkah').value = 30000000;
+                document.getElementById('fw_hasJointProperty').checked = false;
                 document.getElementById('fw_funeralCost').value = 0;
                 document.getElementById('fw_debtCost').value = 0;
                 document.getElementById('fw_willCost').value = 0;
-                document.getElementById('fw_hasJointProperty').checked = false;
-                runFaraidhCalculation();
-            } else if (caseNo === 2) {
-                // Kasus Gharawain: Suami, Ibu, Ayah
-                document.getElementById('fw_grossTirkah').value = 60000000;
-                document.getElementById('fw_deceasedGender').value = 'female';
-                handleDeceasedGenderChange();
+                document.getElementById('hw_spouseCount').value = 1;
                 document.getElementById('hw_father').checked = true;
                 document.getElementById('hw_mother').checked = true;
                 document.getElementById('hw_son').value = 0;
                 document.getElementById('hw_daughter').value = 0;
-                document.getElementById('fw_funeralCost').value = 0;
-                document.getElementById('fw_debtCost').value = 0;
-                document.getElementById('fw_willCost').value = 0;
-                document.getElementById('fw_hasJointProperty').checked = false;
-                runFaraidhCalculation();
+                showToast('info', 'Kasus Gharawain Dimuat', 'Kasus Umar: Suami, Ibu, Ayah.');
             }
+            runFaraidhCalculation();
         }
 
         function resetFaraidhForm() {
-            document.getElementById('fw_grossTirkah').value = 100000000;
             document.getElementById('fw_deceasedGender').value = 'male';
             handleDeceasedGenderChange();
+            document.getElementById('fw_grossTirkah').value = 100000000;
+            document.getElementById('fw_hasJointProperty').checked = false;
+            document.getElementById('fw_funeralCost').value = 5000000;
+            document.getElementById('fw_debtCost').value = 10000000;
+            document.getElementById('fw_willCost').value = 0;
             document.getElementById('hw_spouseCount').value = 1;
             document.getElementById('hw_father').checked = true;
             document.getElementById('hw_mother').checked = true;
+            document.getElementById('hw_paternalGrandfather').checked = false;
+            document.getElementById('hw_grandmother').checked = false;
             document.getElementById('hw_son').value = 1;
             document.getElementById('hw_daughter').value = 2;
             document.getElementById('hw_grandson').value = 0;
@@ -1558,21 +3051,18 @@
             document.getElementById('hw_fullBrother').value = 0;
             document.getElementById('hw_fullSister').value = 0;
             document.getElementById('hw_maternalSibling').value = 0;
-            document.getElementById('fw_funeralCost').value = 5000000;
-            document.getElementById('fw_debtCost').value = 10000000;
-            document.getElementById('fw_willCost').value = 0;
-            document.getElementById('fw_hasJointProperty').checked = false;
+            document.getElementById('hw_consanguineBrother').value = 0;
+            document.getElementById('hw_consanguineSister').value = 0;
+            document.getElementById('hw_paternalUncle').value = 0;
             runFaraidhCalculation();
+            showToast('info', 'Form Direset', 'Kalkulator waris telah dikembalikan ke kondisi default.');
         }
 
-        /* =================================================================
-           4. ZAKAT CALCULATION ENGINE (8 VARIAN)
-           ================================================================= */
         function switchZakatSubTab(sub) {
             activeZakatSubTab = sub;
-            document.querySelectorAll('.zpane').forEach(el => el.classList.add('hidden'));
-            const p = document.getElementById('zpane-' + sub);
-            if (p) p.classList.remove('hidden');
+            document.querySelectorAll('.zpane').forEach(p => p.classList.add('hidden'));
+            const target = document.getElementById('zpane-' + sub);
+            if (target) target.classList.remove('hidden');
 
             document.querySelectorAll('.zsub-btn').forEach(btn => {
                 btn.classList.remove('bg-emerald-700', 'text-white', 'shadow-md');
@@ -1583,10 +3073,10 @@
                 active.classList.add('bg-emerald-700', 'text-white', 'shadow-md');
                 active.classList.remove('bg-white', 'text-slate-600');
             }
-            recalculateCurrentZakat();
+            recalcCurrentZakat();
         }
 
-        function recalculateCurrentZakat() {
+        function recalcCurrentZakat() {
             switch (activeZakatSubTab) {
                 case 'maal': calcZakatMaal(); break;
                 case 'profesi': calcZakatProfesi(); break;
@@ -1596,283 +3086,159 @@
                 case 'peternakan': calcZakatPeternakan(); break;
                 case 'fitrah': calcZakatFitrah(); break;
                 case 'rikaz': calcZakatRikaz(); break;
+                default: calcZakatMaal(); break;
             }
+        }
+
+        function setZakatOutputUI(isWajib, amount, nishabStr, netAssetStr, rateStr, formulaStr) {
+            document.getElementById('zk_statusTitle').innerText = isWajib ? "WAJIB ZAKAT" : "BELUM WAJIB ZAKAT";
+            document.getElementById('zk_statusTitle').className = isWajib ? "text-lg font-black text-emerald-800" : "text-lg font-black text-slate-500";
+
+            const badge = document.getElementById('zk_badge');
+            badge.innerText = isWajib ? "Mencapai Nishab" : "Di Bawah Nishab";
+            badge.className = isWajib ? "px-3 py-1 rounded-xl bg-emerald-100 text-emerald-900 font-extrabold text-xs" : "px-3 py-1 rounded-xl bg-slate-100 text-slate-700 font-extrabold text-xs";
+
+            document.getElementById('zk_finalAmount').innerText = formatRupiah(amount);
+            document.getElementById('zk_descFormula').innerText = formulaStr;
+            document.getElementById('zk_nishabValue').innerText = nishabStr;
+            document.getElementById('zk_netAsset').innerText = netAssetStr;
+            document.getElementById('zk_rate').innerText = rateStr;
+
+            lastZakatResult = { isWajib, amount, nishabStr, netAssetStr, rateStr, formulaStr };
         }
 
         function calcZakatMaal() {
             const savings = parseFloat(document.getElementById('zm_savings').value) || 0;
             const invest = parseFloat(document.getElementById('zm_invest').value) || 0;
             const debt = parseFloat(document.getElementById('zm_debt').value) || 0;
-            const nishab = currentGoldPrice * 85;
-            const net = Math.max(0, (savings + invest) - debt);
-            const isWajib = net >= nishab;
-            const finalZakat = isWajib ? net * 0.025 : 0;
-
-            updateZakatUI({
-                type: "Zakat Maal (Harta)",
-                isWajib,
-                amount: finalZakat,
-                netAsset: net,
-                nishabStr: `${formatIDR(nishab)} (85g Emas)`,
-                rateStr: "2.5%",
-                desc: isWajib ? `2.5% x Harta Kena Zakat (${formatIDR(net)})` : 'Belum mencapai nishab 85g emas.'
-            });
+            const netAsset = Math.max(0, savings + invest - debt);
+            const nishab = 85 * currentGoldPrice;
+            const isWajib = netAsset >= nishab;
+            const amount = isWajib ? netAsset * 0.025 : 0;
+            setZakatOutputUI(isWajib, amount, `${formatRupiah(nishab)} (85g Emas)`, formatRupiah(netAsset), "2.5%", `2.5% x ${formatRupiah(netAsset)}`);
         }
 
         function calcZakatProfesi() {
-            const inc = parseFloat(document.getElementById('zp_income').value) || 0;
-            const ext = parseFloat(document.getElementById('zp_extra').value) || 0;
+            const income = parseFloat(document.getElementById('zp_income').value) || 0;
+            const extra = parseFloat(document.getElementById('zp_extra').value) || 0;
             const needs = parseFloat(document.getElementById('zp_basicNeeds').value) || 0;
-            const monthlyNet = Math.max(0, (inc + ext) - needs);
-            const nishabMonthly = (currentGoldPrice * 85) / 12;
-            const isWajib = monthlyNet >= nishabMonthly;
-            const finalZakat = isWajib ? monthlyNet * 0.025 : 0;
-
-            updateZakatUI({
-                type: "Zakat Penghasilan / Profesi",
-                isWajib,
-                amount: finalZakat,
-                netAsset: monthlyNet,
-                nishabStr: `${formatIDR(nishabMonthly)}/bulan`,
-                rateStr: "2.5%",
-                desc: isWajib ? `2.5% x Penghasilan Bersih Bulanan (${formatIDR(monthlyNet)})` : 'Penghasilan belum melampaui nishab bulanan.'
-            });
+            const netMonthly = Math.max(0, income + extra - needs);
+            const netYearly = netMonthly * 12;
+            const nishabYearly = 85 * currentGoldPrice;
+            const nishabMonthly = nishabYearly / 12;
+            const isWajib = netMonthly >= nishabMonthly;
+            const amount = isWajib ? netMonthly * 0.025 : 0;
+            setZakatOutputUI(isWajib, amount, `${formatRupiah(nishabMonthly)}/bulan`, `${formatRupiah(netMonthly)}/bulan`, "2.5%", `2.5% x ${formatRupiah(netMonthly)}`);
         }
 
         function calcZakatTijarah() {
             const stock = parseFloat(document.getElementById('zt_stock').value) || 0;
             const rec = parseFloat(document.getElementById('zt_receivables').value) || 0;
             const debt = parseFloat(document.getElementById('zt_debt').value) || 0;
-            const nishab = currentGoldPrice * 85;
-            const net = Math.max(0, (stock + rec) - debt);
-            const isWajib = net >= nishab;
-            const finalZakat = isWajib ? net * 0.025 : 0;
-
-            updateZakatUI({
-                type: "Zakat Perdagangan (Tijarah)",
-                isWajib,
-                amount: finalZakat,
-                netAsset: net,
-                nishabStr: `${formatIDR(nishab)} (85g Emas)`,
-                rateStr: "2.5%",
-                desc: isWajib ? `2.5% x Aset Dagang Bersih (${formatIDR(net)})` : 'Aset dagang belum mencapai nishab.'
-            });
+            const netAsset = Math.max(0, stock + rec - debt);
+            const nishab = 85 * currentGoldPrice;
+            const isWajib = netAsset >= nishab;
+            const amount = isWajib ? netAsset * 0.025 : 0;
+            setZakatOutputUI(isWajib, amount, `${formatRupiah(nishab)} (85g Emas)`, formatRupiah(netAsset), "2.5%", `2.5% x ${formatRupiah(netAsset)}`);
         }
 
         function calcZakatEmas() {
             const gold = parseFloat(document.getElementById('ze_goldGram').value) || 0;
             const silver = parseFloat(document.getElementById('ze_silverGram').value) || 0;
-            const silverPrice = 18000; // per gram
             const isGoldWajib = gold >= 85;
-            const isSilverWajib = silver >= 595;
-
-            let totalZakat = 0;
-            if (isGoldWajib) totalZakat += (gold * currentGoldPrice) * 0.025;
-            if (isSilverWajib) totalZakat += (silver * silverPrice) * 0.025;
-
-            const isWajib = isGoldWajib || isSilverWajib;
-            const totalAssetVal = (gold * currentGoldPrice) + (silver * silverPrice);
-
-            updateZakatUI({
-                type: "Zakat Emas & Perak",
-                isWajib,
-                amount: totalZakat,
-                netAsset: totalAssetVal,
-                nishabStr: "85g Emas / 595g Perak",
-                rateStr: "2.5%",
-                desc: isWajib ? `2.5% dari total nilai logam mulia simpanan (${formatIDR(totalAssetVal)})` : 'Berat simpanan di bawah batas nishab.'
-            });
+            const goldVal = gold * currentGoldPrice;
+            const amount = isGoldWajib ? goldVal * 0.025 : 0;
+            setZakatOutputUI(isGoldWajib, amount, "85 gram emas", `${gold} gram (${formatRupiah(goldVal)})`, "2.5%", `2.5% x ${gold} gram emas`);
         }
 
         function calcZakatPertanian() {
             const harvestKg = parseFloat(document.getElementById('zpt_harvestKg').value) || 0;
-            const ratePercent = parseFloat(document.getElementById('zpt_irrigationType').value) || 5;
-            const price = parseFloat(document.getElementById('zpt_pricePerKg').value) || 13000;
-            const nishabKg = 653; // 5 wasaq gabah
-            const isWajib = harvestKg >= nishabKg;
-            const totalVal = harvestKg * price;
-            const zakatKg = isWajib ? harvestKg * (ratePercent / 100) : 0;
-            const zakatNominal = zakatKg * price;
-
-            updateZakatUI({
-                type: "Zakat Pertanian & Buah",
-                isWajib,
-                amount: zakatNominal,
-                netAsset: totalVal,
-                nishabStr: "653 Kg Gabah / 520 Kg Beras",
-                rateStr: `${ratePercent}%`,
-                desc: isWajib ? `Setara ${zakatKg.toFixed(1)} Kg beras/gabah (${ratePercent}% x ${harvestKg} Kg)` : 'Hasil panen belum mencapai 5 wasaq (653 kg).'
-            });
+            const irrigationRate = parseFloat(document.getElementById('zpt_irrigationType').value) || 5;
+            const pricePerKg = parseFloat(document.getElementById('zpt_pricePerKg').value) || 13000;
+            const isWajib = harvestKg >= 653; // 5 Wasaq
+            const totalVal = harvestKg * pricePerKg;
+            const amount = isWajib ? totalVal * (irrigationRate / 100) : 0;
+            setZakatOutputUI(isWajib, amount, "653 Kg Gabah / 520 Kg Beras", `${harvestKg} Kg (${formatRupiah(totalVal)})`, `${irrigationRate}%`, `${irrigationRate}% x ${formatRupiah(totalVal)}`);
         }
 
         function calcZakatPeternakan() {
             const goat = parseInt(document.getElementById('ztk_goat').value) || 0;
             const cow = parseInt(document.getElementById('ztk_cow').value) || 0;
-            const goatPrice = 2500000;
-            const cowPrice = 18000000;
+            let wajib = false;
+            let desc = "Belum mencapai nishab";
+            let amountRupiah = 0;
 
-            let zakatGoatCount = 0;
-            let zakatCowCount = 0;
-
-            // Aturan Kambing
-            if (goat >= 40 && goat <= 120) zakatGoatCount = 1;
-            else if (goat >= 121 && goat <= 200) zakatGoatCount = 2;
-            else if (goat >= 201 && goat <= 399) zakatGoatCount = 3;
-            else if (goat >= 400) zakatGoatCount = Math.floor(goat / 100);
-
-            // Aturan Sapi (tiap 30 ekor = 1 tabi', tiap 40 ekor = 1 musinnah)
+            if (goat >= 40) {
+                wajib = true;
+                if (goat <= 120) {
+                    desc = "1 ekor kambing (umur 1-2 th)";
+                    amountRupiah = 2500000;
+                } else if (goat <= 200) {
+                    desc = "2 ekor kambing";
+                    amountRupiah = 5000000;
+                } else {
+                    desc = "3 ekor kambing";
+                    amountRupiah = 7500000;
+                }
+            }
             if (cow >= 30) {
-                zakatCowCount = Math.floor(cow / 30);
+                wajib = true;
+                desc += " + 1 ekor sapi tabi' (1 th)";
+                amountRupiah += 15000000;
             }
 
-            const isWajib = zakatGoatCount > 0 || zakatCowCount > 0;
-            const totalNominal = (zakatGoatCount * goatPrice) + (zakatCowCount * cowPrice);
-            const totalAsset = (goat * goatPrice) + (cow * cowPrice);
-
-            updateZakatUI({
-                type: "Zakat Peternakan",
-                isWajib,
-                amount: totalNominal,
-                netAsset: totalAsset,
-                nishabStr: "Kambing: 40 | Sapi: 30",
-                rateStr: "Lookup Syar'i",
-                desc: isWajib ? `Kewajiban: ${zakatGoatCount} ekor kambing & ${zakatCowCount} ekor sapi/tabi'.` : 'Jumlah ternak belum memenuhi nishab.'
-            });
+            setZakatOutputUI(wajib, amountRupiah, "Kambing min 40, Sapi min 30", `${goat} kambing, ${cow} sapi`, "Syar'i", desc);
         }
 
         function calcZakatFitrah() {
             const people = parseInt(document.getElementById('zf_people').value) || 1;
             const price = parseFloat(document.getElementById('zf_ricePrice').value) || 15000;
-            const kgPerPerson = 2.5; // Standar 2.5 kg beras
+            const kgPerPerson = 2.5;
             const totalKg = people * kgPerPerson;
-            const totalNominal = totalKg * price;
-
-            updateZakatUI({
-                type: "Zakat Fitrah",
-                isWajib: true,
-                amount: totalNominal,
-                netAsset: totalNominal,
-                nishabStr: "1 Sha' (~2.5 kg beras / jiwa)",
-                rateStr: "Wajib per Jiwa",
-                desc: `${people} jiwa x 2.5 kg beras = ${totalKg} kg (${formatIDR(totalNominal)})`
-            });
+            const amount = totalKg * price;
+            setZakatOutputUI(true, amount, "Setiap Jiwa Muslim (1 Sha' ~2.5 kg)", `${people} Jiwa (${totalKg} kg)`, "100% Fitrah", `${people} jiwa x 2.5 kg x ${formatRupiah(price)}`);
         }
 
         function calcZakatRikaz() {
             const val = parseFloat(document.getElementById('zr_value').value) || 0;
-            const isWajib = val > 0;
-            const finalZakat = isWajib ? val * 0.20 : 0;
-
-            updateZakatUI({
-                type: "Zakat Rikaz (Temuan)",
-                isWajib,
-                amount: finalZakat,
-                netAsset: val,
-                nishabStr: "Tanpa Batas Minimum (Seketika)",
-                rateStr: "20% (Seperlima)",
-                desc: `20% x Total Nilai Temuan (${formatIDR(val)})`
-            });
+            const amount = val * 0.20; // 20% tanpa nishab dan haul
+            setZakatOutputUI(val > 0, amount, "Tanpa Nishab Minimum", formatRupiah(val), "20% (Seperlima)", `20% x ${formatRupiah(val)}`);
         }
 
-        function updateZakatUI(res) {
-            lastZakatResult = res;
-            const titleEl = document.getElementById('zk_statusTitle');
-            const badgeEl = document.getElementById('zk_badge');
-            const amountEl = document.getElementById('zk_finalAmount');
-            const descEl = document.getElementById('zk_descFormula');
+        let chatHistory = [];
 
-            if (res.isWajib) {
-                titleEl.innerText = "WAJIB ZAKAT";
-                titleEl.className = "text-lg font-black text-emerald-800";
-                badgeEl.innerText = "Mencapai Nishab";
-                badgeEl.className = "px-3 py-1 rounded-xl bg-emerald-100 text-emerald-900 font-extrabold text-xs";
-                amountEl.innerText = formatIDR(res.amount);
-            } else {
-                titleEl.innerText = "TIDAK WAJIB ZAKAT";
-                titleEl.className = "text-lg font-black text-slate-500";
-                badgeEl.innerText = "Di Bawah Nishab";
-                badgeEl.className = "px-3 py-1 rounded-xl bg-slate-100 text-slate-600 font-extrabold text-xs";
-                amountEl.innerText = "Rp 0";
-            }
-
-            descEl.innerText = res.desc;
-            document.getElementById('zk_nishabValue').innerText = res.nishabStr;
-            document.getElementById('zk_netAsset').innerText = formatIDR(res.netAsset);
-            document.getElementById('zk_rate').innerText = res.rateStr;
-        }
-
-        /* =================================================================
-           5. SMART CONSULTATION & CHAT LOGIC
-           ================================================================= */
-        const syariahKnowledgeBase = [
-            {
-                keywords: ['sama rata', 'adil', '1:1', 'pria wanita', 'bagi rata'],
-                reply: `<strong>Hukum Pembagian Warisan Sama Rata:</strong><br>
-                Menurut ijmak ulama dan penjelasan dalam Q.S. An-Nisa: 11, pembagian pokok anak laki-laki dan perempuan adalah <strong>2 banding 1 (li adz-dzakari mitslu hazh-zhil untsayain)</strong>.<br><br>
-                Membagi harta secara sama rata langsung di awal tanpa menghitung hak faraidh <strong>tidak dibenarkan</strong>. Namun, jika hak syar'i masing-masing ahli waris telah dihitung secara transparan dan diketahui jelas oleh semua pihak, lalu dengan <strong>kerelaan sukarela (tanpa paksaan)</strong> mereka bersepakat saling menghibahkan (*ishlah/takharuj*) agar bagian nominalnya seimbang, maka hal tersebut <strong>diperbolehkan</strong> secara hukum Islam.`
-            },
-            {
-                keywords: ['anak angkat', 'anak tiri', 'tiri', 'angkat'],
-                reply: `<strong>Kedudukan Anak Angkat & Anak Tiri dalam Faraidh:</strong><br>
-                Sebab kewarisan dalam Islam hanya terjadi melalui: (1) Hubungan Nasab (darah), (2) Pernikahan yang sah, (3) Pembebasan budak (*wala'*), dan (4) Hubungan Islam (*Baitul Mal*).<br><br>
-                Karena anak tiri dan anak angkat tidak memiliki hubungan nasab langsung dengan pewaris, mereka <strong>bukan ahli waris</strong>.<br>
-                Namun, Islam memberikan solusi melalui <strong>Wasiat Wajibah</strong> atau hibah dengan syarat maksimal <strong>1/3 dari harta peninggalan</strong> (sebagaimana ditegaskan dalam Kompilasi Hukum Islam Pasal 209).`
-            },
-            {
-                keywords: ['gharawain', 'umariyatain', 'suami ibu bapak', 'istri ibu bapak'],
-                reply: `<strong>Masalah Gharawain (Umariyatain):</strong><br>
-                Terjadi jika ahli waris hanya terdiri dari pasangan (suami/istri), ibu, dan ayah tanpa ada anak atau jamak saudara.<br>
-                Penyelesaian ketetapan Umar bin Khattab dan Zaid bin Tsabit r.a.:<br>
-                1. Pasangan mengambil hak fardhunya (1/2 untuk suami atau 1/4 untuk istri).<br>
-                2. Ibu mendapatkan <strong>1/3 dari SISA</strong> (bukan 1/3 dari total harta mutlak).<br>
-                3. Ayah mendapatkan sisa harta sebagai ashabah (sehingga porsi Ayah tetap 2x lipat porsi Ibu).`
-            },
-            {
-                keywords: ['aul', 'al-aul', 'lebih saham', 'tambah asal masalah'],
-                reply: `<strong>Kaidah Al-'Aul:</strong><br>
-                Al-'Aul artinya bertambah. Terjadi jika total saham ashabul furudh melebihi angka Asal Masalah (pembilang > penyebut).<br>
-                Solusinya: Asal masalah dinaikkan menjadi sebesar jumlah saham tersebut. Dengan demikian, nilai rupiah per saham menyusut secara proporsional dan adil untuk seluruh ahli waris.`
-            },
-            {
-                keywords: ['radd', 'ar-radd', 'sisa', 'kembalikan'],
-                reply: `<strong>Kaidah Ar-Radd:</strong><br>
-                Ar-Radd artinya mengembalikan. Terjadi jika setelah semua Ashabul Furudh menerima bagiannya, masih terdapat sisa harta dan tidak ada ahli waris *'ashabah* yang mengambil sisa.<br>
-                Sisa harta dikembalikan kepada Ashabul Furudh nasabiyah (ibu, anak perempuan, saudari). Suami atau istri tidak mendapat bagian radd menurut jumhur ulama.`
-            },
-            {
-                keywords: ['emas', 'perhiasan', 'pakai'],
-                reply: `<strong>Zakat Emas Simpanan vs Perhiasan:</strong><br>
-                Emas batangan atau koin yang disimpan sebagai tabungan/investasi wajib dizakati jika mencapai nishab <strong>85 gram</strong> dan haul 1 tahun (tarif 2.5%).<br>
-                Adapun perhiasan emas yang dipakai secara wajar oleh wanita dalam kehidupan sehari-hari (bukan ditimbun untuk investasi) <strong>tidak dikenakan zakat</strong> menurut pendapat jumhur fuqaha.`
-            }
-        ];
-
-        function handleChatSubmit(e) {
+        async function handleChatSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('chatInput');
-            const q = input.value.trim();
-            if (!q) return;
+            const message = input.value.trim();
+            if (!message) return;
 
-            appendChatMessage('user', q);
+            appendChatMessage('user', message);
             input.value = '';
 
-            // Loading state
-            setTimeout(() => {
-                const lower = q.toLowerCase();
-                let matched = syariahKnowledgeBase.find(item => item.keywords.some(k => lower.includes(k)));
+            const feed = document.getElementById('chatFeed');
+            const loadingMsg = document.createElement('div');
+            loadingMsg.id = 'chatLoadingBubble';
+            loadingMsg.className = 'flex items-start space-x-3 max-w-2xl';
+            loadingMsg.innerHTML = `
+                <div class="w-8 h-8 rounded-xl bg-emerald-700 text-amber-300 flex items-center justify-center shrink-0 shadow">
+                    <i class="fa-solid fa-spinner fa-spin text-xs"></i>
+                </div>
+                <div class="bg-white p-3 rounded-2xl border border-slate-200 text-xs text-slate-500 italic">
+                    Menelaah dalil Al-Qur'an, Hadits, & KHI...
+                </div>
+            `;
+            feed.appendChild(loadingMsg);
+            feed.scrollTop = feed.scrollHeight;
 
-                let reply = "";
-                if (matched) {
-                    reply = matched.reply;
-                } else {
-                    reply = `Terima kasih atas pertanyaan Anda mengenai <em>"${q}"</em>.<br><br>
-                    Berdasarkan kaidah Fiqih Mawaris dan Zakat:<br>
-                    • Setiap peralihan hak wajib memprioritaskan pembersihan tirkah (biaya perawatan, utang, dan wasiat $\\le 1/3$).<br>
-                    • Pembagian warisan dilakukan secara proporsional sesuai ketentuan nash Al-Qur'an Surat An-Nisa.<br>
-                    • Anda juga dapat menggunakan <strong>Kalkulator Warisan</strong> atau <strong>Kalkulator Zakat</strong> di menu atas untuk mensimulasikan angka riil kasus Anda.`;
-                }
-                appendChatMessage('bot', reply);
-            }, 600);
+            try {
+                const response = await querySyariahEngine(message);
+                loadingMsg.remove();
+                appendChatMessage('bot', response);
+            } catch (err) {
+                loadingMsg.remove();
+                appendChatMessage('bot', "Maaf, sistem sedang memverifikasi rujukan. Silakan ajukan pertanyaan lain seputar waris atau zakat.");
+            }
         }
 
         function quickPrompt(text) {
@@ -1883,23 +3249,20 @@
         function appendChatMessage(sender, text) {
             const feed = document.getElementById('chatFeed');
             const div = document.createElement('div');
-            div.className = sender === 'user' ? 'flex items-start justify-end space-x-3' : 'flex items-start space-x-3 max-w-3xl';
-
             if (sender === 'user') {
+                div.className = 'flex items-start justify-end space-x-2';
                 div.innerHTML = `
-                    <div class="bg-emerald-600 text-white p-3.5 rounded-2xl rounded-tr-none text-xs sm:text-sm shadow-sm max-w-lg leading-relaxed">
+                    <div class="bg-emerald-700 text-white p-3.5 rounded-2xl rounded-tr-none text-xs max-w-xl shadow leading-relaxed">
                         ${text}
-                    </div>
-                    <div class="w-8 h-8 rounded-xl bg-slate-800 text-white flex items-center justify-center shrink-0 text-xs">
-                        <i class="fa-solid fa-user"></i>
                     </div>
                 `;
             } else {
+                div.className = 'flex items-start space-x-3 max-w-2xl';
                 div.innerHTML = `
-                    <div class="w-9 h-9 rounded-xl bg-emerald-700 text-amber-300 flex items-center justify-center shrink-0 shadow">
-                        <i class="fa-solid fa-scale-balanced text-sm"></i>
+                    <div class="w-8 h-8 rounded-xl bg-emerald-700 text-amber-300 flex items-center justify-center shrink-0 shadow">
+                        <i class="fa-solid fa-scale-balanced text-xs"></i>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200/80 shadow-sm text-xs sm:text-sm text-slate-800 space-y-2 leading-relaxed">
+                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200/90 text-xs sm:text-sm text-slate-800 space-y-2 leading-relaxed shadow-sm">
                         ${text}
                     </div>
                 `;
@@ -1908,100 +3271,117 @@
             feed.scrollTop = feed.scrollHeight;
         }
 
-        /* =================================================================
-           6. EXPORT / PRINT REPORT ENGINE & MODALS
-           ================================================================= */
-        function printFaraidhReport() {
-            if (!lastFaraidhResult) {
-                runFaraidhCalculation();
-            }
-            const res = lastFaraidhResult;
-            const name = document.getElementById('fw_deceasedName').value || 'Almarhum/ah';
-            const area = document.getElementById('printableArea');
+        async function querySyariahEngine(query) {
+            const apiKey = "";
+            const systemPrompt = "Anda adalah Pakar Fikih Mawaris & Zakat terkemuka di aplikasi Zawaris. Rujuklah QS. An-Nisa: 7, 11, 12, 176, Hadits Shahih, Ijmak, dan KHI. Jelaskan porsi ahli waris, 'aul, radd, gharawain, dan nishab zakat secara jelas, santun, dan terstruktur.";
 
-            let rowsHtml = res.shares.map((s, i) => `
-                <tr class="border-b">
-                    <td class="py-2 font-medium">${i + 1}. ${s.name}</td>
-                    <td class="py-2 text-center">${s.shareStr}</td>
-                    <td class="py-2 text-right font-bold text-emerald-800">${formatIDR(s.nominal)}</td>
-                </tr>
-            `).join('');
+            if (!apiKey) {
+                // Fallback basis pengetahuan cerdas jika offline
+                const q = query.toLowerCase();
+                if (q.includes("rata") || q.includes("sama rata")) {
+                    return "<strong>Hukum Bagi Waris Sama Rata (Ishlah Syar'i):</strong><br>Menurut jumhur ulama dan Pasal 183 KHI, pembagian sama rata diperbolehkan hanya apabila <strong>bagian asal syariat telah diketahui secara transparan</strong> dan seluruh ahli waris yang telah dewasa menyetujuinya secara sukarela (<em>ridha bi at-taradhi</em>) atas dasar hibah/ishlah.";
+                }
+                if (q.includes("angkat") || q.includes("tiri")) {
+                    return "<strong>Kedudukan Anak Angkat & Anak Tiri:</strong><br>Anak angkat dan anak tiri <strong>bukan ahli waris</strong> karena tidak memiliki hubungan nasab hakiki dengan pewaris. Namun, mereka berhak memperoleh bagian melalui <strong>Wasiat Wajibah</strong> (maksimal 1/3 dari harta bersih) atau melalui hibah.";
+                }
+                if (q.includes("gharawain") || q.includes("umariyatain")) {
+                    return "<strong>Kasus Gharawain (Umariyatain):</strong><br>Terjadi jika ahli waris hanya terdiri dari [Suami/Istri + Ibu + Ayah]. Suami mengambil 1/2 (atau Istri 1/4), Ibu mendapat <strong>1/3 dari SISA</strong>, dan Ayah mengambil sisanya (2/3 dari sisa) agar bagian laki-laki tetap 2x bagian perempuan.";
+                }
+                return "Pertanyaan Anda mengenai <em>" + query + "</em>: Berdasarkan kaidah fikih faraidh dan zakat, seluruh pembagian harus menunaikan hak tirkah kotor terlebih dahulu (gono-gini 50%, jenazah, utang, dan wasiat non-ahli waris maksimal 1/3), kemudian sisa bersih dibagi menurut porsi furudh Al-Qur'an.";
+            }
+
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    contents: [{ role: 'user', parts: [{ text: query }] }]
+                })
+            });
+
+            if (!response.ok) throw new Error("API_ERROR");
+            const data = await response.json();
+            return data?.candidates?.[0]?.content?.parts?.[0]?.text || "Jawaban tidak tersedia.";
+        }
+
+        function printFaraidhReport() {
+            if (!lastFaraidhResult) runFaraidhCalculation();
+            const data = lastFaraidhResult;
+            const area = document.getElementById('printableArea');
+            const deceased = document.getElementById('fw_deceasedName').value || "Almarhum Fulan";
 
             area.innerHTML = `
-                <div class="border-b pb-4 text-center">
-                    <h2 class="text-xl font-black tracking-tight text-emerald-900">RISALAH PEMBAGIAN HARTA WARISAN (FARAIDH)</h2>
-                    <p class="text-xs text-slate-500">Sistem Pakar Syariah Zawaris - Dihitung Berdasarkan Kaidah Al-Qur'an, Hadits & KHI</p>
+                <div class="border-b-2 border-emerald-900 pb-4 text-center space-y-1">
+                    <h2 class="text-xl font-black text-emerald-950 uppercase">RISALAH RESMI PEMBAGIAN WARISAN SYARIAH (FARAIDH)</h2>
+                    <p class="text-xs text-slate-500">Zawaris Syariah System • Terverifikasi Al-Qur'an, Sunnah, Ijmak & KHI</p>
                 </div>
-                <div class="grid grid-cols-2 gap-4 py-2 text-xs">
-                    <div>
-                        <p><strong>Pewaris:</strong> ${name}</p>
-                        <p><strong>Status Kasus:</strong> ${res.caseName}</p>
-                        <p><strong>Asal Masalah:</strong> ${res.asalMasalahAwal} ${res.asalMasalahAkhir !== res.asalMasalahAwal ? '→ ' + res.asalMasalahAkhir : ''}</p>
-                    </div>
-                    <div class="text-right">
-                        <p><strong>Tirkah Kotor:</strong> ${formatIDR(res.tirkahData.gross)}</p>
-                        <p><strong>Total Pengurang:</strong> ${formatIDR(res.tirkahData.jointDed + res.tirkahData.funeral + res.tirkahData.debt + res.tirkahData.will)}</p>
-                        <p><strong>Harta Bersih (Net):</strong> <span class="text-emerald-700 font-extrabold">${formatIDR(res.tirkahData.netTirkah)}</span></p>
-                    </div>
+                <div class="grid grid-cols-2 gap-4 py-3 bg-slate-50 p-3 rounded-2xl border text-xs">
+                    <div><strong>Nama Pewaris:</strong> ${deceased}</div>
+                    <div><strong>Status Logika:</strong> ${data.caseType}</div>
+                    <div><strong>Total Harta Bersih:</strong> ${formatRupiah(data.netTirkah)}</div>
+                    <div><strong>Asal Masalah:</strong> ${data.am}</div>
                 </div>
-                <table class="w-full text-xs text-left border-collapse my-3">
-                    <thead>
-                        <tr class="border-y bg-slate-50 text-slate-700">
-                            <th class="py-2">Penerima Hak Waris</th>
-                            <th class="py-2 text-center">Porsi Syar'i</th>
-                            <th class="py-2 text-right">Nominal Hak (Rp)</th>
+                <table class="w-full text-xs text-left border border-slate-200 mt-2">
+                    <thead class="bg-emerald-900 text-white">
+                        <tr>
+                            <th class="p-2.5">No</th>
+                            <th class="p-2.5">Ahli Waris</th>
+                            <th class="p-2.5">Porsi Hak Syar'i</th>
+                            <th class="p-2.5 text-right">Nominal Perolehan (Rp)</th>
                         </tr>
                     </thead>
-                    <tbody>${rowsHtml}</tbody>
+                    <tbody class="divide-y divide-slate-100">
+                        ${data.items.map((it, idx) => `
+                            <tr>
+                                <td class="p-2.5 font-bold">${idx + 1}</td>
+                                <td class="p-2.5 font-semibold">${it.name}</td>
+                                <td class="p-2.5">${it.shareStr}</td>
+                                <td class="p-2.5 text-right font-extrabold text-emerald-800">${formatRupiah(it.amount)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
                 </table>
-                <div class="p-3 bg-slate-50 rounded-xl text-[11px] text-slate-600 space-y-1">
-                    <p><strong>Pernyataan:</strong> Pembagian ini telah memenuhi rukun faraidh dan bebas hak orang lain (biaya jenazah, utang, wasiat $\\le 1/3$). Jika keluarga bermaksud membagi rata atau hibah timbal balik (*ishlah*), wajib dilakukan atas kerelaan bersama setelah hak asal di atas disepakati.</p>
+                <div class="pt-4 text-[11px] text-slate-500 leading-relaxed italic">
+                    Catatan: Risalah ini sah menurut kaidah hukum faraidh. Ahli waris bersepakat dengan ikhlas mematuhi ketetapan Allah SWT.
                 </div>
             `;
-
             document.getElementById('reportModal').classList.remove('hidden');
             document.getElementById('reportModal').classList.add('flex');
         }
 
         function printZakatSlip() {
-            if (!lastZakatResult) recalculateCurrentZakat();
+            if (!lastZakatResult) recalcCurrentZakat();
             const z = lastZakatResult;
             const area = document.getElementById('printableArea');
 
             area.innerHTML = `
-                <div class="border-b pb-4 text-center">
-                    <h2 class="text-xl font-black tracking-tight text-emerald-900">SLIP PERHITUNGAN ZAKAT SYARIAH</h2>
-                    <p class="text-xs text-slate-500">Zawaris Calculator - Standar Nishab & Kadar Fiqih Kontemporer</p>
+                <div class="border-b-2 border-emerald-900 pb-4 text-center space-y-1">
+                    <h2 class="text-xl font-black text-emerald-950 uppercase">BUKTI PERHITUNGAN AUDIT ZAKAT SYARIAH</h2>
+                    <p class="text-xs text-slate-500">Standarisasi BAZNAS RI & Fikih Kontemporer • Aplikasi Zawaris</p>
                 </div>
-                <div class="py-3 space-y-2 text-xs">
-                    <div class="flex justify-between">
-                        <span>Jenis Zakat:</span>
-                        <strong class="text-slate-800">${z.type}</strong>
+                <div class="p-5 rounded-2xl bg-slate-50 border text-xs space-y-2.5">
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-slate-500">Jenis Zakat:</span>
+                        <strong class="text-slate-800 uppercase">${activeZakatSubTab}</strong>
                     </div>
-                    <div class="flex justify-between">
-                        <span>Status Kewajiban:</span>
-                        <strong class="${z.isWajib ? 'text-emerald-700' : 'text-slate-500'}">${z.isWajib ? 'WAJIB DITUNAIKAN' : 'BELUM MENCAPAI NISHAB'}</strong>
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-slate-500">Status Kewajiban:</span>
+                        <strong class="text-emerald-700">${z.isWajib ? "WAJIB DITUNAIKAN" : "BELUM WAJIB"}</strong>
                     </div>
-                    <div class="flex justify-between">
-                        <span>Ambang Batas Nishab:</span>
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-slate-500">Ambang Batas Nishab:</span>
                         <span>${z.nishabStr}</span>
                     </div>
-                    <div class="flex justify-between">
-                        <span>Nilai Aset Dihitung:</span>
-                        <span>${formatIDR(z.netAsset)}</span>
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-slate-500">Harta Bersih Objek Zakat:</span>
+                        <span>${z.netAssetStr}</span>
                     </div>
-                    <div class="flex justify-between">
-                        <span>Tarif / Kadar:</span>
-                        <span>${z.rateStr}</span>
+                    <div class="flex justify-between pt-2 text-sm font-black text-emerald-900">
+                        <span>ZAKAT YANG HARUS DIKELUARKAN:</span>
+                        <span class="text-base text-amber-600">${formatRupiah(z.amount)}</span>
                     </div>
                 </div>
-                <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-center my-4">
-                    <span class="text-xs text-emerald-800 font-semibold block">Total Zakat Wajib:</span>
-                    <span class="text-2xl font-black text-emerald-900">${formatIDR(z.amount)}</span>
-                </div>
-                <p class="text-[11px] text-slate-500 text-center">Salurkan zakat kepada 8 Asnaf yang berhak (QS. At-Taubah: 60) melalui lembaga amil zakat resmi terpercaya.</p>
             `;
-
             document.getElementById('reportModal').classList.remove('hidden');
             document.getElementById('reportModal').classList.add('flex');
         }
@@ -2011,40 +3391,21 @@
             document.getElementById('reportModal').classList.remove('flex');
         }
 
-        function openDalilModal(topic) {
+        function openDalilModal(type) {
             const title = document.getElementById('dalilModalTitle');
             const content = document.getElementById('dalilModalContent');
-
-            if (topic === 'faraidh') {
-                title.innerText = "Dalil Al-Qur'an & Hadits Tentang Mawaris";
+            if (type === 'faraidh') {
+                title.innerText = "Dalil Pokok Faraidh (QS. An-Nisa: 11-12)";
                 content.innerHTML = `
-                    <div>
-                        <strong class="text-emerald-800 block">1. QS. An-Nisa: 11 (Hak Anak & Orang Tua)</strong>
-                        <p class="arabic-text text-sm my-1">يُوصِيكُمُ ٱللَّهُ فِىٓ أَوْلَٰدِكُمْ ۖ لِلذَّكَرِ مِثْلُ حَظِّ ٱلْأُنثَيَيْنِ...</p>
-                        <p class="italic">"Bahagian seorang anak lelaki sama dengan bahagian dua orang anak perempuan..."</p>
-                    </div>
-                    <div class="pt-2">
-                        <strong class="text-emerald-800 block">2. QS. An-Nisa: 12 (Hak Suami & Istri)</strong>
-                        <p class="arabic-text text-sm my-1">وَلَكُمْ نِصْفُ مَا تَرَكَ أَزْوَٰجُكُمْ إِن لَّمْ يَكُن لَّهُنَّ وَلَدٌ...</p>
-                        <p class="italic">"Dan bagimu (suami-suami) seperdua dari harta yang ditinggalkan oleh isteri-isterimu, jika mereka tidak mempunyai anak..."</p>
-                    </div>
-                    <div class="pt-2">
-                        <strong class="text-emerald-800 block">3. Hadits Shahih Bukhari (Prioritas Ashabah)</strong>
-                        <p class="italic">"Bagikanlah harta peninggalan kepada para pemilik bagian tertentu (ashabul furudh), dan apa yang tersisa maka berikanlah kepada laki-laki yang paling dekat kekerabatannya." (HR. Bukhari & Muslim)</p>
-                    </div>
+                    <p class="arabic-text text-sm">يُوصِيكُمُ اللَّهُ فِي أَوْلَادِكُمْ ۖ لِلذَّكَرِ مِثْلُ حَظِّ الْأُنْثَيَيْنِ...</p>
+                    <p class="italic">"Allah mensyariatkan bagimu tentang pembagian warisan untuk anak-anakmu: bagian seorang anak laki-laki menyamai bagian dua orang anak perempuan..."</p>
+                    <p class="pt-2">Hadits Ibnu Abbas RA: <em>"Serahkan bagian-bagian pasti kepada yang berhak, dan apa yang tersisa adalah untuk kerabat laki-laki yang paling utama." (HR. Bukhari & Muslim)</em></p>
                 `;
             } else {
-                title.innerText = "Dalil Pensyariatan Zakat";
+                title.innerText = "Dalil Pokok Zakat & Penyaluran 8 Asnaf (QS. At-Taubah: 60)";
                 content.innerHTML = `
-                    <div>
-                        <strong class="text-emerald-800 block">1. QS. At-Taubah: 103 (Perintah Zakat)</strong>
-                        <p class="arabic-text text-sm my-1">خُذْ مِنْ أَمْوَٰلِهِمْ صَدَقَةً تُطَهِّرُهُمْ وَتُزَكِّيهِم بِهَا...</p>
-                        <p class="italic">"Ambillah zakat dari sebagian harta mereka, dengan zakat itu kamu membersihkan dan mensucikan mereka..."</p>
-                    </div>
-                    <div class="pt-2">
-                        <strong class="text-emerald-800 block">2. QS. At-Taubah: 60 (8 Asnaf Penerima Zakat)</strong>
-                        <p class="italic">"Sesungguhnya zakat-zakat itu, hanyalah untuk orang-orang fakir, orang-orang miskin, pengurus-pengurus zakat, para mualaf yang dibujuk hatinya, untuk (memerdekakan) budak, orang-orang yang berutang, untuk jalan Allah dan untuk mereka yuang sedang dalam perjalanan..."</p>
-                    </div>
+                    <p class="arabic-text text-sm">إِنَّمَا الصَّدَقَاتُ لِلْفُقَرَاءِ وَالْمَسَاكِينِ وَالْعَامِلِينَ عَلَيْهَا وَالْمُؤَلَّفَةِ قُلُوبُهُمْ...</p>
+                    <p class="italic">"Sesungguhnya zakat-zakat itu, hanyalah untuk orang-orang fakir, orang-orang miskin, pengurus-pengurus zakat, para mualaf yang dibujuk hatinya, untuk memerdekakan budak, orang-orang yang berutang, untuk jalan Allah dan untuk mereka yang sedang dalam perjalanan..."</p>
                 `;
             }
             document.getElementById('dalilModal').classList.remove('hidden');
@@ -2057,9 +3418,16 @@
         }
 
         window.onload = function() {
+            loadAllFromStorage();
             syncPrices();
             runFaraidhCalculation();
             calcZakatMaal();
+            renderAdminMenuManager();
+            renderAdminPostsList();
+            renderAdminQuickCardsManager();
+            renderHomeQuickCards();
+            loadLayoutFormValues();
+            updateAuthUI();
         };
     </script>
 </body>
