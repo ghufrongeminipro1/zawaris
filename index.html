@@ -1712,6 +1712,7 @@
                     avatarUrl: adminCredentials.avatarUrl
                 };
                 closeLoginModal();
+                saveAllToStorage();
                 updateAuthUI();
                 showToast('success', 'Login Berhasil', `Selamat datang kembali, Grand Administrator ${currentUser.displayName}!`);
                 switchTab('admin');
@@ -1723,6 +1724,7 @@
 
         function handleLogout() {
             currentUser = null;
+            saveAllToStorage();
             updateAuthUI();
             showToast('info', 'Logout Berhasil', 'Anda telah keluar dari mode Grand Administrator.');
             switchTab('dashboard');
@@ -1788,39 +1790,112 @@
         }
 
         /* =================================================================
-           1.2. LOCAL STORAGE PERSISTENCE ENGINE
+           1.2. LOCAL STORAGE PERSISTENCE ENGINE & IMAGE COMPRESSION
            ================================================================= */
+        // Kompresi gambar otomatis via HTML5 Canvas agar muat di localStorage tanpa QuotaExceededError
+        function processImageFile(file, maxWidth = 800, maxHeight = 600, quality = 0.75, callback) {
+            if (!file) return;
+            if (file.type === 'image/svg+xml') {
+                const reader = new FileReader();
+                reader.onload = (e) => callback(e.target.result);
+                reader.readAsDataURL(file);
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width;
+                    let h = img.height;
+                    if (w > maxWidth) {
+                        h = Math.round((h * maxWidth) / w);
+                        w = maxWidth;
+                    }
+                    if (h > maxHeight) {
+                        w = Math.round((w * maxHeight) / h);
+                        h = maxHeight;
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                    callback(compressedDataUrl);
+                };
+                img.onerror = function() {
+                    callback(e.target.result);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveToStorageSafely(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                return true;
+            } catch (err) {
+                console.warn(`Gagal menyimpan ${key} ke localStorage:`, err);
+                return false;
+            }
+        }
+
         function loadAllFromStorage() {
             try {
                 const savedPosts = localStorage.getItem('zawaris_posts');
-                if (savedPosts) appPosts = JSON.parse(savedPosts);
+                if (savedPosts) {
+                    const parsed = JSON.parse(savedPosts);
+                    if (Array.isArray(parsed) && parsed.length > 0) appPosts = parsed;
+                }
 
                 const savedLayout = localStorage.getItem('zawaris_layout');
-                if (savedLayout) appLayout = JSON.parse(savedLayout);
+                if (savedLayout) {
+                    const parsed = JSON.parse(savedLayout);
+                    appLayout = Object.assign(appLayout, parsed);
+                }
 
                 const savedCards = localStorage.getItem('zawaris_quick_cards');
-                if (savedCards) appQuickCards = JSON.parse(savedCards);
+                if (savedCards) {
+                    const parsed = JSON.parse(savedCards);
+                    if (Array.isArray(parsed) && parsed.length > 0) appQuickCards = parsed;
+                }
 
                 const savedAdmin = localStorage.getItem('zawaris_admin_cred');
-                if (savedAdmin) adminCredentials = JSON.parse(savedAdmin);
+                if (savedAdmin) {
+                    const parsed = JSON.parse(savedAdmin);
+                    adminCredentials = Object.assign(adminCredentials, parsed);
+                }
 
                 const savedMenus = localStorage.getItem('zawaris_menus');
-                if (savedMenus) appMenus = JSON.parse(savedMenus);
+                if (savedMenus) {
+                    const parsed = JSON.parse(savedMenus);
+                    if (Array.isArray(parsed) && parsed.length > 0) appMenus = parsed;
+                }
+
+                const savedUser = localStorage.getItem('zawaris_current_user');
+                if (savedUser) {
+                    currentUser = JSON.parse(savedUser);
+                }
             } catch (err) {
                 console.warn("Storage load warning:", err);
             }
         }
 
         function saveAllToStorage() {
-            try {
-                localStorage.setItem('zawaris_posts', JSON.stringify(appPosts));
-                localStorage.setItem('zawaris_layout', JSON.stringify(appLayout));
-                localStorage.setItem('zawaris_quick_cards', JSON.stringify(appQuickCards));
-                localStorage.setItem('zawaris_admin_cred', JSON.stringify(adminCredentials));
-                localStorage.setItem('zawaris_menus', JSON.stringify(appMenus));
-            } catch (err) {
-                console.warn("Storage save error:", err);
+            let success = true;
+            if (!saveToStorageSafely('zawaris_quick_cards', appQuickCards)) success = false;
+            if (!saveToStorageSafely('zawaris_posts', appPosts)) success = false;
+            if (!saveToStorageSafely('zawaris_layout', appLayout)) success = false;
+            if (!saveToStorageSafely('zawaris_admin_cred', adminCredentials)) success = false;
+            if (!saveToStorageSafely('zawaris_menus', appMenus)) success = false;
+            
+            if (currentUser) {
+                saveToStorageSafely('zawaris_current_user', currentUser);
+            } else {
+                localStorage.removeItem('zawaris_current_user');
             }
+            return success;
         }
 
         /* =================================================================
@@ -1877,13 +1952,15 @@
         function handleAvatarFileSelect(e) {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const dataUrl = evt.target.result;
-                    document.getElementById('admInputAvatarUrl').value = dataUrl;
-                    document.getElementById('dashboardAdminAvatar').src = dataUrl;
-                };
-                reader.readAsDataURL(file);
+                processImageFile(file, 300, 300, 0.8, function(compressedUrl) {
+                    document.getElementById('admInputAvatarUrl').value = compressedUrl;
+                    document.getElementById('dashboardAdminAvatar').src = compressedUrl;
+                    adminCredentials.avatarUrl = compressedUrl;
+                    if (currentUser) currentUser.avatarUrl = compressedUrl;
+                    saveAllToStorage();
+                    updateAuthUI();
+                    showToast('success', 'Foto Profil Diperbarui', 'Foto profil terkompresi dan disimpan secara permanen.');
+                });
             }
         }
 
@@ -1900,6 +1977,7 @@
                 if (currentUser) currentUser.avatarUrl = avatar;
             }
 
+            saveAllToStorage();
             updateAuthUI();
             showToast('success', 'Profil Diperbarui', 'Nama dan foto profil Grand Administrator berhasil disimpan.');
         }
@@ -2047,14 +2125,11 @@
         function handlePostImageFileSelect(e) {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const dataUrl = evt.target.result;
-                    document.getElementById('postInputImageUrl').value = dataUrl;
+                processImageFile(file, 800, 600, 0.75, function(compressedUrl) {
+                    document.getElementById('postInputImageUrl').value = compressedUrl;
                     updateLivePostPreview();
-                    showToast('success', 'Gambar Diunggah', 'Foto lokal berhasil dimuat ke thumbnail.');
-                };
-                reader.readAsDataURL(file);
+                    showToast('success', 'Gambar Diunggah & Disesuaikan', 'Foto warta berhasil dikompresi dan siap disimpan.');
+                });
             }
         }
 
@@ -2237,17 +2312,15 @@
         function handleHeroImageFileSelect(e) {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const dataUrl = evt.target.result;
+                processImageFile(file, 800, 600, 0.75, function(compressedUrl) {
                     const inp = document.getElementById('layoutHeroImage');
-                    if (inp) inp.value = dataUrl;
+                    if (inp) inp.value = compressedUrl;
                     const img = document.getElementById('heroTalentImage');
-                    if (img) img.src = dataUrl;
-                    appLayout.heroImageUrl = dataUrl;
-                    showToast('success', 'Foto Banner Dimuat', 'Foto utama hero banner berhasil diperbarui!');
-                };
-                reader.readAsDataURL(file);
+                    if (img) img.src = compressedUrl;
+                    appLayout.heroImageUrl = compressedUrl;
+                    saveAllToStorage();
+                    showToast('success', 'Foto Banner Dimuat', 'Foto utama hero banner berhasil dikompresi dan disimpan!');
+                });
             }
         }
 
@@ -2443,22 +2516,25 @@
         function setQuickCardPreset(idx, url) {
             const input = document.getElementById(`cardInputImg_${idx}`);
             if (input) input.value = url;
+            if (appQuickCards[idx]) {
+                appQuickCards[idx].imageUrl = url;
+            }
             updateCardThumbPreview(idx);
-            showToast('info', 'Preset Dipilih', `Thumbnail untuk Box #${idx + 1} berhasil diperbarui.`);
+            showToast('info', 'Preset Dipilih', `Thumbnail untuk Box #${idx + 1} berhasil dipilih. Klik "Simpan Box" untuk mengunci perubahan.`);
         }
 
         function handleQuickCardImageUpload(e, idx) {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    const dataUrl = evt.target.result;
+                processImageFile(file, 800, 600, 0.75, function(compressedUrl) {
                     const input = document.getElementById(`cardInputImg_${idx}`);
-                    if (input) input.value = dataUrl;
+                    if (input) input.value = compressedUrl;
+                    if (appQuickCards[idx]) {
+                        appQuickCards[idx].imageUrl = compressedUrl;
+                    }
                     updateCardThumbPreview(idx);
-                    showToast('success', 'Foto Terunggah', `Foto lokal berhasil dimuat untuk Box #${idx + 1}.`);
-                };
-                reader.readAsDataURL(file);
+                    showToast('success', 'Foto Terunggah & Terkompresi', `Foto untuk Box #${idx + 1} siap disimpan.`);
+                });
             }
         }
 
@@ -2470,13 +2546,18 @@
             const img = document.getElementById(`cardInputImg_${idx}`)?.value.trim();
 
             if (title) appQuickCards[idx].title = title;
-            if (badge) appQuickCards[idx].badge = badge;
+            if (badge !== undefined) appQuickCards[idx].badge = badge;
             if (desc) appQuickCards[idx].description = desc;
             if (img) appQuickCards[idx].imageUrl = img;
 
-            saveAllToStorage();
+            const isSaved = saveAllToStorage();
             renderHomeQuickCards();
-            showToast('success', 'Box Disimpan', `Pengaturan untuk Box #${idx + 1} ("${appQuickCards[idx].title}") berhasil disimpan!`);
+            renderAdminQuickCardsManager();
+            if (isSaved) {
+                showToast('success', 'Box Disimpan', `Pengaturan Box #${idx + 1} ("${appQuickCards[idx].title}") tersimpan permanen!`);
+            } else {
+                showToast('error', 'Gagal Menyimpan', 'Penyimpanan lokal penuh. Gunakan gambar berukuran lebih kecil atau URL.');
+            }
         }
 
         function saveAllQuickCards() {
@@ -2487,13 +2568,18 @@
                 const img = document.getElementById(`cardInputImg_${idx}`)?.value.trim();
 
                 if (title) card.title = title;
-                if (badge) card.badge = badge;
+                if (badge !== undefined) card.badge = badge;
                 if (desc) card.description = desc;
                 if (img) card.imageUrl = img;
             });
-            saveAllToStorage();
+            const isSaved = saveAllToStorage();
             renderHomeQuickCards();
-            showToast('success', 'Seluruh Box Disimpan', 'Seluruh 3 Box Fitur Beranda berhasil diperbarui dan aktif.');
+            renderAdminQuickCardsManager();
+            if (isSaved) {
+                showToast('success', 'Seluruh Box Disimpan', 'Seluruh 3 Box Fitur Beranda berhasil diperbarui dan tersimpan permanen!');
+            } else {
+                showToast('error', 'Gagal Menyimpan', 'Penyimpanan lokal penuh. Gunakan gambar berukuran lebih kecil atau URL.');
+            }
         }
 
         function scrollToQuickCardEdit(idx) {
